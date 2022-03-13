@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20084" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Film" representedClassName="Film" syncable="YES">
+        <attribute name="idFilm" attributeType="String"/>
+        <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="ratingCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="urlImg" optional="YES" attributeType="String"/>
+        <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="filmToFilmtotop" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="FilmToTop" inverseName="ftpToFilm" inverseEntity="FilmToTop"/>
+        <relationship name="idfilmToFilmtoperson" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="FilmToPerson" inverseName="filmtopersonToFilm" inverseEntity="FilmToPerson"/>
+        <userInfo>
+            <entry key="idFilm.isPrimaryKey" value="true"/>
+        </userInfo>
+    </entity>
+    <entity name="FilmToPerson" representedClassName="FilmToPerson" syncable="YES">
+        <attribute name="actor" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="director" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="writer" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="filmtopersonToFilm" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Film" inverseName="idfilmToFilmtoperson" inverseEntity="Film"/>
+        <relationship name="filmtopersonToPerson" maxCount="1" deletionRule="No Action" destinationEntity="Person" inverseName="personToFilmtoperson" inverseEntity="Person"/>
+    </entity>
+    <entity name="FilmToTop" representedClassName="FilmToTop" syncable="YES">
+        <attribute name="rank" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="ftpToFilm" maxCount="1" deletionRule="No Action" destinationEntity="Film" inverseName="filmToFilmtotop" inverseEntity="Film"/>
+        <relationship name="ftpToTop" maxCount="1" deletionRule="Nullify" destinationEntity="Top" inverseName="topToFilmtotop" inverseEntity="Top"/>
+    </entity>
+    <entity name="Person" representedClassName="Person" syncable="YES">
+        <attribute name="idName" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="personToFilmtoperson" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FilmToPerson" inverseName="filmtopersonToPerson" inverseEntity="FilmToPerson"/>
+        <userInfo>
+            <entry key="idName.isPrimaryKey" value="true"/>
+        </userInfo>
+    </entity>
+    <entity name="Pref" representedClassName="Pref" syncable="YES">
+        <attribute name="apiKeyName" attributeType="String"/>
+        <attribute name="key" attributeType="String"/>
+        <userInfo>
+            <entry key="apiKeyName.isPrimaryKey" value="true"/>
+        </userInfo>
+    </entity>
+    <entity name="Top" representedClassName="Top" syncable="YES">
+        <attribute name="dateModif" attributeType="Date" defaultDateTimeInterval="668624940" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="topToFilmtotop" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FilmToTop" inverseName="ftpToTop" inverseEntity="FilmToTop"/>
+        <userInfo>
+            <entry key="name.isPrimaryKey" value="true"/>
+        </userInfo>
+    </entity>
+    <elements>
+        <element name="Film" positionX="-9122.487915039062" positionY="-5306.748199462891" width="152.6812744140625" height="163"/>
+        <element name="FilmToPerson" positionX="-9114.492980957031" positionY="-5077.775573730469" width="128" height="118"/>
+        <element name="FilmToTop" positionX="-8930.878601074219" positionY="-5231.656829833984" width="128" height="88"/>
+        <element name="Person" positionX="-9103.672180175781" positionY="-4908.989807128906" width="128" height="88"/>
+        <element name="Pref" positionX="-8873.742980957031" positionY="-4909.860504150391" width="128" height="73"/>
+        <element name="Top" positionX="-8762.098205566406" positionY="-5231.287231445312" width="128" height="88"/>
+    </elements>
+</model>
