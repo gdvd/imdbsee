@@ -34,10 +34,12 @@ class TopModel {
         if let tops = topOpt {
             if let ftps = tops.topToFilmtotop {
                 let listFilmToShow = transformFilmtotopToFilmtoshow(filmtotop: ftps as! Set<FilmToTop>)
-                completionHandler(.Success(response: listFilmToShow))
+                let listFilmToShowSorted = self.orderListFilmtoshow(list: listFilmToShow)
+                completionHandler(.Success(response: listFilmToShowSorted))
             } else {
-                let urlOpt = prepareUrlToDownloadTop(type: type)
-                //downloadData(urlOpt: urlOpt)
+                //TODO: NEXT
+                //let urlOpt = prepareUrlToDownloadTop(type: type)
+                //downloadData(urlOpt: urlOpt) ....
             }
         } else {
             let urlOpt = prepareUrlToDownloadTop(type: type)
@@ -50,7 +52,8 @@ class TopModel {
                     case .Success(response: let tblRespVideoImdb):
                         self.manageCoredata.saveTop(resp: tblRespVideoImdb, type: type)
                         let listFilmToShow:[FilmToShow] = self.transformTblrespvideoimdbToFilmtoshow(resp: tblRespVideoImdb)
-                        completionHandler(.Success(response: listFilmToShow))
+                        let listFilmToShowSorted = self.orderListFilmtoshow(list: listFilmToShow)
+                        completionHandler(.Success(response: listFilmToShowSorted))
                     case .Failure(failure: let failure):
                         completionHandler(.Failure(failure: .downloadError(response: failure.localizedDescription)))
                     }
@@ -59,6 +62,13 @@ class TopModel {
                 //TODO: comppletionHandler with error
             }
         }
+    }
+    private func orderListFilmtoshow(list: [FilmToShow]) -> [FilmToShow] {
+        //return list.sorted(by: { $0.rank > $1.rank })
+        let sorted = list.sorted { fl, fr -> Bool in
+            return fl.rank < fr.rank
+        }
+        return sorted
     }
     private func transformTblrespvideoimdbToFilmtoshow(resp: [ResponseVideoImdb]) -> [FilmToShow] {
         var listFilmToShow:[FilmToShow] = []
@@ -83,6 +93,9 @@ class TopModel {
                 }
                 if let ratingCount = rvi.imDbRatingCount {
                     fts.imDbRatingCount = Int32(ratingCount) ?? 0
+                }
+                if let crews = rvi.crew {
+                    fts.crews = crews
                 }
                 listFilmToShow.append(fts)
             }
@@ -128,6 +141,7 @@ class TopModel {
         }
         filmToShow.imDbRating = film.rating
         filmToShow.year = film.year
+        filmToShow.crews = film.crews ?? ""
         if let img = film.urlImg {
             filmToShow.image = img
         }

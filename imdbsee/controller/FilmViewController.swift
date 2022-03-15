@@ -9,10 +9,16 @@ import UIKit
 
 class FilmViewController: UIViewController {
 
+    @IBOutlet weak var btnSearch: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        btnSearch.titleLabel?.text = ""
     }
 
 
+    @IBAction func btnSearchAction(_ sender: UIButton) {
+        print("SEARCH Films")
+    }
 }
 

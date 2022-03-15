@@ -13,15 +13,15 @@ class ManageCoreData {
     init() {}
     
     //private let context = AppDelegate.viewContext
-    private static var getContext: NSManagedObjectContext {
-        if Thread.current.isMainThread {
-            return AppDelegate.viewContext
-        } else {
-            return DispatchQueue.main.sync {
-                return AppDelegate.viewContext
-            }
-        }
-    }
+//    private static var getContext: NSManagedObjectContext {
+//        if Thread.current.isMainThread {
+//            return AppDelegate.viewContext
+//        } else {
+//            return DispatchQueue.main.sync {
+//                return AppDelegate.viewContext
+//            }
+//        }
+//    }
     //MARK: - TopVideo
     public func getAllDataTop(withName type: String) -> Top? {
         let request: NSFetchRequest<Top> = Top.fetchRequest()
@@ -63,62 +63,62 @@ class ManageCoreData {
         }
         }
     }
-    public func saveTop2(resp: [ResponseVideoImdb], type: String){
-        print("============= SaveData in DB")
-        
-        createOrUpdateTopEntity2(withName: type){
-            resultTop in 
-            resp.forEach { oneVideo in
-                if let id = oneVideo.id, let title = oneVideo.title {
-                    let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
-                    if let film = filmOpt {
-                        let ftp = FilmToTop(context: AppDelegate.viewContext)
-                        if let rank = oneVideo.rank {
-                            ftp.rank = Int16(rank)!
-                            ftp.ftpToFilm = film
-                            ftp.ftpToTop = resultTop
-                            do { try AppDelegate.viewContext.save() }
-                            catch {
-                                print(error.localizedDescription)
-                            }
-                        }
-                    }
-                } else {
-                    print("Pb")
-                }
-            }
-        }
-        
-        
-    }
-    private func createOrUpdateTopEntity2(withName type: String, completionHandler: @escaping(Top) -> Void ) {
-        let request: NSFetchRequest<Top> = Top.fetchRequest()
-        request.predicate = NSPredicate(format: "name == %@", type)
-        let topOpt = try? AppDelegate.viewContext.fetch(request)
-        let dateNow = Calendar.current.dateComponents(in: .current, from: Date()).date! 
-        if let top = topOpt, topOpt != [] {
-            // Already exist, then just update dateModif
-            top[0].dateModif = dateNow
-            do {
-                try AppDelegate.viewContext.save()
-            }
-            catch {
-                print(error.localizedDescription)
-            }
-            completionHandler(top[0])
-        } else {
-            // Doesn't exist, create new Top with name 'type'
-            let top = Top(context: AppDelegate.viewContext)
-            top.name = type
-            top.dateModif = dateNow
-            do {
-                try AppDelegate.viewContext.save()
-            } catch {
-                print(error.localizedDescription)
-            }
-            completionHandler(top)
-        }
-    }
+//    public func saveTop2(resp: [ResponseVideoImdb], type: String){
+//        print("============= SaveData in DB")
+//        
+//        createOrUpdateTopEntity2(withName: type){
+//            resultTop in 
+//            resp.forEach { oneVideo in
+//                if let id = oneVideo.id, let title = oneVideo.title {
+//                    let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
+//                    if let film = filmOpt {
+//                        let ftp = FilmToTop(context: AppDelegate.viewContext)
+//                        if let rank = oneVideo.rank {
+//                            ftp.rank = Int16(rank)!
+//                            ftp.ftpToFilm = film
+//                            ftp.ftpToTop = resultTop
+//                            do { try AppDelegate.viewContext.save() }
+//                            catch {
+//                                print(error.localizedDescription)
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    print("Pb")
+//                }
+//            }
+//        }
+//        
+//        
+//    }
+//    private func createOrUpdateTopEntity2(withName type: String, completionHandler: @escaping(Top) -> Void ) {
+//        let request: NSFetchRequest<Top> = Top.fetchRequest()
+//        request.predicate = NSPredicate(format: "name == %@", type)
+//        let topOpt = try? AppDelegate.viewContext.fetch(request)
+//        let dateNow = Calendar.current.dateComponents(in: .current, from: Date()).date! 
+//        if let top = topOpt, topOpt != [] {
+//            // Already exist, then just update dateModif
+//            top[0].dateModif = dateNow
+//            do {
+//                try AppDelegate.viewContext.save()
+//            }
+//            catch {
+//                print(error.localizedDescription)
+//            }
+//            completionHandler(top[0])
+//        } else {
+//            // Doesn't exist, create new Top with name 'type'
+//            let top = Top(context: AppDelegate.viewContext)
+//            top.name = type
+//            top.dateModif = dateNow
+//            do {
+//                try AppDelegate.viewContext.save()
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//            completionHandler(top)
+//        }
+//    }
     public func saveDataTop(resp: [ResponseVideoImdb], type: String) -> Bool {
         
         let top = createOrUpdateTopEntity(withName: type)
@@ -168,6 +168,7 @@ class ManageCoreData {
             let year = oneVideo.year ?? "0"
             film.year = Int16(year) ?? 0
             film.urlImg = oneVideo.image ?? ""
+            film.crews = oneVideo.crew ?? ""
             do {
                 try? AppDelegate.viewContext.save()
                 return film

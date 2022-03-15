@@ -20,4 +20,6 @@ struct ResponseVideoImdb: Codable {
     var crew: String?
     var imDbRating: String?
     var imDbRatingCount: String?
+    
+    
 }

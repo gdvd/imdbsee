@@ -14,6 +14,6 @@ struct ElementVideo {
     var rank: Int?
     var year: Int?
     var img: Data?
-    var description: String?
+    var crew: String?
     
 }

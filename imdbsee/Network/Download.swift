@@ -31,6 +31,23 @@ class Download {
         self.session = session
     }
     
+    public func downloadImg(){
+        var semaphore = DispatchSemaphore (value: 0)
+        
+        var request = URLRequest(url: URL(string: "https://imdb-api.com/en/API/Title/k_1234567/tt1832382")!,timeoutInterval: Double.infinity)
+        request.httpMethod = "GET"
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in 
+          guard let data = data else {
+            print(String(describing: error))
+            return
+          }
+          print(String(data: data, encoding: .utf8)!)
+          semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+    }
+    
     public func downloadVideoImdb(url: String, completionHandler: @escaping (Networkresponse<[ResponseVideoImdb]>) -> Void){
         
         var request = URLRequest(url: URL(string: url)!)

@@ -22,6 +22,7 @@ extension Film {
     @NSManaged public var title: String?
     @NSManaged public var urlImg: String?
     @NSManaged public var year: Int16
+    @NSManaged public var crews: String?
     @NSManaged public var filmToFilmtotop: NSSet?
     @NSManaged public var idfilmToFilmtoperson: NSSet?
 

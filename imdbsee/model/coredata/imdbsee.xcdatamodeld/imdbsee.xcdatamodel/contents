@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Film" representedClassName="Film" syncable="YES">
+        <attribute name="crews" optional="YES" attributeType="String"/>
         <attribute name="idFilm" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="ratingCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -49,7 +50,7 @@
         </userInfo>
     </entity>
     <elements>
-        <element name="Film" positionX="-9122.487915039062" positionY="-5306.748199462891" width="152.6812744140625" height="163"/>
+        <element name="Film" positionX="-9122.487915039062" positionY="-5306.748199462891" width="152.6812744140625" height="178"/>
         <element name="FilmToPerson" positionX="-9114.492980957031" positionY="-5077.775573730469" width="128" height="118"/>
         <element name="FilmToTop" positionX="-8930.878601074219" positionY="-5231.656829833984" width="128" height="88"/>
         <element name="Person" positionX="-9103.672180175781" positionY="-4908.989807128906" width="128" height="88"/>

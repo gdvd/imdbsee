@@ -14,9 +14,9 @@ class TopViewController: UIViewController {
     @IBOutlet weak var listsSegmented: UISegmentedControl!
     @IBOutlet weak var tableFilms: UITableView!
     
-    private var listVideoToShow:[ElementVideo] = []
-    private var listFilms:[ElementVideo] = []
-    private var listTvs:[ElementVideo] = []
+    private var listVideoToShow:[FilmToShow] = []
+    private var listFilms:[FilmToShow] = []
+    private var listTvs:[FilmToShow] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,17 +33,23 @@ class TopViewController: UIViewController {
     private func loadListTopFilms(){
         if listFilms.count == 0 {
             topModel.loadListTops(type: Constants.strTopFilms){
-                result in
+                
+                [weak self] result in
+                guard let self = self else { return }
+                
                 switch result {
                 case .Success(response: let resp):
                     print("Return Success")
                     print(resp.count)
-                    //TODO: Next
+                    self.listVideoToShow = resp
+                    DispatchQueue.main.async {
+                        self.tableFilms.reloadData()
+                    }
                 case .ZeroData:
                     print("Return zero")
                     //TODO: Next
                 case .Failure(let error):
-                    print("Return Failure with error :", error)
+                    print("Return Failure with error :", error.localizedDescription)
                     //TODO: Next
                 }
             }
