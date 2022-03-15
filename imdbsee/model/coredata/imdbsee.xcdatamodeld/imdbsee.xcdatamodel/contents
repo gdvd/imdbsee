@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20084" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Film" representedClassName="Film" syncable="YES">
         <attribute name="idFilm" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
@@ -23,7 +23,7 @@
     <entity name="FilmToTop" representedClassName="FilmToTop" syncable="YES">
         <attribute name="rank" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="ftpToFilm" maxCount="1" deletionRule="No Action" destinationEntity="Film" inverseName="filmToFilmtotop" inverseEntity="Film"/>
-        <relationship name="ftpToTop" maxCount="1" deletionRule="Nullify" destinationEntity="Top" inverseName="topToFilmtotop" inverseEntity="Top"/>
+        <relationship name="ftpToTop" maxCount="1" deletionRule="No Action" destinationEntity="Top" inverseName="topToFilmtotop" inverseEntity="Top"/>
     </entity>
     <entity name="Person" representedClassName="Person" syncable="YES">
         <attribute name="idName" attributeType="String"/>
@@ -42,7 +42,7 @@
     </entity>
     <entity name="Top" representedClassName="Top" syncable="YES">
         <attribute name="dateModif" attributeType="Date" defaultDateTimeInterval="668624940" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
         <relationship name="topToFilmtotop" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FilmToTop" inverseName="ftpToTop" inverseEntity="FilmToTop"/>
         <userInfo>
             <entry key="name.isPrimaryKey" value="true"/>

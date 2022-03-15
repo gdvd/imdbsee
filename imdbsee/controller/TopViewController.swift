@@ -30,7 +30,6 @@ class TopViewController: UIViewController {
             loadListTopTvs()
         }
     }
-    
     private func loadListTopFilms(){
         if listFilms.count == 0 {
             topModel.loadListTops(type: Constants.strTopFilms){
@@ -38,7 +37,7 @@ class TopViewController: UIViewController {
                 switch result {
                 case .Success(response: let resp):
                     print("Return Success")
-                    print(resp.topToFilmtotop!.count)
+                    print(resp.count)
                     //TODO: Next
                 case .ZeroData:
                     print("Return zero")

@@ -2,7 +2,7 @@
 //  Top+CoreDataProperties.swift
 //  imdbsee
 //
-//  Created by Gilles David on 13/03/2022.
+//  Created by Gilles David on 15/03/2022.
 //
 //
 
@@ -16,8 +16,8 @@ extension Top {
         return NSFetchRequest<Top>(entityName: "Top")
     }
 
-    @NSManaged public var name: String?
     @NSManaged public var dateModif: Date?
+    @NSManaged public var name: String?
     @NSManaged public var topToFilmtotop: NSSet?
 
 }
