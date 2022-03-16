@@ -30,6 +30,7 @@ class TopViewController: UIViewController {
             loadListTopTvs()
         }
     }
+    //MARK: - TopFilm
     private func loadListTopFilms(){
         if listFilms.count == 0 {
             topModel.loadListTops(type: Constants.strTopFilms){
@@ -39,12 +40,13 @@ class TopViewController: UIViewController {
                 
                 switch result {
                 case .Success(response: let resp):
-                    print("Return Success")
-                    print(resp.count)
+                    print("Return Success TopFilm size : \(resp.count)")
+                    self.listFilms = resp
                     self.listVideoToShow = resp
                     DispatchQueue.main.async {
                         self.tableFilms.reloadData()
                     }
+                    self.updateImgsFilm(findNb: 0)
                 case .ZeroData:
                     print("Return zero")
                     //TODO: Next
@@ -56,17 +58,88 @@ class TopViewController: UIViewController {
             //TODO: get data and show them
         } else {
             listVideoToShow = listFilms
-            tableFilms.reloadData()
+            DispatchQueue.main.async {
+                self.tableFilms.reloadData() }
         }
-        
     }
+    private func updateImgsFilm(findNb: Int) {
+        if findNb < listVideoToShow.count && findNb < listFilms.count {
+            let urlImgToDowloadNow = listVideoToShow[findNb].urlImg
+            if urlImgToDowloadNow.count > 10 {
+                topModel.searchOneImage(url: urlImgToDowloadNow) {
+                    [self] result in
+                    switch result {
+                    case .Success(let dataImg):
+                        self.listFilms[findNb].dataImg = dataImg
+                        self.listVideoToShow[findNb].dataImg = dataImg
+                        DispatchQueue.main.async {
+                            self.tableFilms.reloadData()
+                        }
+                        updateImgsFilm(findNb: findNb + 1)
+                        
+                    case .Failure(failure: let error):
+                        print("******> error", error.localizedDescription)
+                    }
+                }
+            }else {
+                updateImgsFilm(findNb: findNb + 1)
+            }
+        }
+    }
+    //MARK: - TopTv
     private func loadListTopTvs() {
         if listTvs.count == 0 {
-            //topModel.loadListTopTvs()
+            topModel.loadListTops(type: Constants.strTopTvs){
+                
+                [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .Success(response: let resp):
+                    print("Return Success TopFilmTV size : \(resp.count)")
+                    self.listTvs = resp
+                    self.listVideoToShow = resp
+                    DispatchQueue.main.async {
+                        self.tableFilms.reloadData()
+                    }
+                    self.updateImgsTv(findNb: 0)
+                case .ZeroData:
+                    print("Return zero")
+                    //TODO: Next
+                case .Failure(let error):
+                    print("Return Failure with error :", error.localizedDescription)
+                    //TODO: Next
+                }
+            }
             //TODO: get data and show them
         } else {
             listVideoToShow = listTvs
-            tableFilms.reloadData()
+            DispatchQueue.main.async {
+                self.tableFilms.reloadData() }
+        }
+    }
+    private func updateImgsTv(findNb: Int) {
+        if findNb < listVideoToShow.count && findNb < listTvs.count {
+            let urlImgToDowloadNow = listVideoToShow[findNb].urlImg
+            if urlImgToDowloadNow.count > 10 {
+                topModel.searchOneImage(url: urlImgToDowloadNow) {
+                    [self] result in
+                    switch result {
+                    case .Success(let dataImg):
+                        self.listVideoToShow[findNb].dataImg = dataImg
+                        self.listTvs[findNb].dataImg = dataImg
+                        DispatchQueue.main.async {
+                            self.tableFilms.reloadData()
+                        }
+                        updateImgsFilm(findNb: findNb + 1)
+                        
+                    case .Failure(failure: let error):
+                        print("******> error", error.localizedDescription)
+                    }
+                }
+            }else {
+                updateImgsFilm(findNb: findNb + 1)
+            }
         }
     }
 

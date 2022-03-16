@@ -11,12 +11,15 @@ enum Networkresponse<T: Codable> {
     case Success(response: T)
     case Failure(failure: RequestError)
 }
-
 enum RequestError: Error {
     case returnZero
     case returnNil
     case statusCodeWrong
     case decodeError
+}
+enum ResultData{
+    case Success(response: Data)
+    case Failure(failure: RequestError)
 }
 
 class Download {
@@ -30,7 +33,24 @@ class Download {
     init(session: URLSession){
         self.session = session
     }
-    
+    public func downloadImage(url: String, completionHandler: @escaping (ResultData) -> Void) {
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        
+        task?.cancel()
+        task = session.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completionHandler(ResultData.Failure(failure: RequestError.returnNil))
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completionHandler(ResultData.Failure(failure: RequestError.statusCodeWrong))
+                return
+            }
+            completionHandler(ResultData.Success(response: data))
+        }
+        task?.resume()
+    }
     public func downloadImg(){
         var semaphore = DispatchSemaphore (value: 0)
         

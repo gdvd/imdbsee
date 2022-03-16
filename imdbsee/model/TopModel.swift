@@ -142,10 +142,20 @@ class TopModel {
         filmToShow.imDbRating = film.rating
         filmToShow.year = film.year
         filmToShow.crews = film.crews ?? ""
+        filmToShow.urlImg = film.urlImg ?? ""
         if let img = film.urlImg {
             filmToShow.image = img
         }
         return filmToShow
     }
-
+    public func searchOneImage(url: String, completionHandler: @escaping (ResultData) -> Void) {
+        download.downloadImage(url: url) { resultData in
+            switch resultData {
+            case .Success(response: let data):
+                completionHandler(ResultData.Success(response: data))
+            case .Failure(failure: let error):
+                completionHandler(ResultData.Failure(failure: error))
+            }
+        }
+    }
 }

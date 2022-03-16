@@ -16,5 +16,6 @@ struct FilmToShow {
     var imDbRating: Double = 0.0
     var imDbRatingCount: Int32 = 0
     var crews: String = ""
-    var img: Data?
+    var urlImg: String = ""
+    var dataImg: Data?
 }

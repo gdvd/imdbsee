@@ -40,7 +40,7 @@ class ManageCoreData {
     }
     public func saveTop(resp: [ResponseVideoImdb], type: String){
         print("============= SaveData in DB")
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async {
         let top = self.createOrUpdateTopEntity(withName: type)
         resp.forEach { oneVideo in
             if let id = oneVideo.id, let title = oneVideo.title {
@@ -63,62 +63,7 @@ class ManageCoreData {
         }
         }
     }
-//    public func saveTop2(resp: [ResponseVideoImdb], type: String){
-//        print("============= SaveData in DB")
-//        
-//        createOrUpdateTopEntity2(withName: type){
-//            resultTop in 
-//            resp.forEach { oneVideo in
-//                if let id = oneVideo.id, let title = oneVideo.title {
-//                    let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
-//                    if let film = filmOpt {
-//                        let ftp = FilmToTop(context: AppDelegate.viewContext)
-//                        if let rank = oneVideo.rank {
-//                            ftp.rank = Int16(rank)!
-//                            ftp.ftpToFilm = film
-//                            ftp.ftpToTop = resultTop
-//                            do { try AppDelegate.viewContext.save() }
-//                            catch {
-//                                print(error.localizedDescription)
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    print("Pb")
-//                }
-//            }
-//        }
-//        
-//        
-//    }
-//    private func createOrUpdateTopEntity2(withName type: String, completionHandler: @escaping(Top) -> Void ) {
-//        let request: NSFetchRequest<Top> = Top.fetchRequest()
-//        request.predicate = NSPredicate(format: "name == %@", type)
-//        let topOpt = try? AppDelegate.viewContext.fetch(request)
-//        let dateNow = Calendar.current.dateComponents(in: .current, from: Date()).date! 
-//        if let top = topOpt, topOpt != [] {
-//            // Already exist, then just update dateModif
-//            top[0].dateModif = dateNow
-//            do {
-//                try AppDelegate.viewContext.save()
-//            }
-//            catch {
-//                print(error.localizedDescription)
-//            }
-//            completionHandler(top[0])
-//        } else {
-//            // Doesn't exist, create new Top with name 'type'
-//            let top = Top(context: AppDelegate.viewContext)
-//            top.name = type
-//            top.dateModif = dateNow
-//            do {
-//                try AppDelegate.viewContext.save()
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//            completionHandler(top)
-//        }
-//    }
+
     public func saveDataTop(resp: [ResponseVideoImdb], type: String) -> Bool {
         
         let top = createOrUpdateTopEntity(withName: type)

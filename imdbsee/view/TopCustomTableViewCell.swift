@@ -8,7 +8,10 @@
 import UIKit
 
 class TopCustomTableViewCell: UITableViewCell {
-
+    
+    private let topModel = TopModel.shared
+    private var elementToShow: FilmToShow!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -25,15 +28,22 @@ class TopCustomTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
     func configure(elementVideo: FilmToShow){
-        titleFilm.text = elementVideo.title 
-        year.text = "\(elementVideo.year)"
-        rank.text = "\(elementVideo.rank)"
-        rating.text = "\(elementVideo.imDbRating)/\(elementVideo.imDbRatingCount)"
-        crews.text = "\(elementVideo.crews)"
+        elementToShow = elementVideo
+        titleFilm.text = elementToShow.title 
+        year.text = "\(elementToShow.year)"
+        rank.text = "\(elementToShow.rank)"
+        rating.text = "\(elementToShow.imDbRating)/\(elementToShow.imDbRatingCount)"
+        crews.text = "\(elementToShow.crews)"
+        
+        if let dataImg = elementToShow.dataImg {
+            if let img = UIImage(data: dataImg){
+                imgFilm.image = img
+            }
+        }
+        
     }
-    
+
 }
