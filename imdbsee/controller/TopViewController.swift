@@ -14,9 +14,9 @@ class TopViewController: UIViewController {
     @IBOutlet weak var listsSegmented: UISegmentedControl!
     @IBOutlet weak var tableFilms: UITableView!
     
-    private var listVideoToShow:[FilmToShow] = []
-    private var listFilms:[FilmToShow] = []
-    private var listTvs:[FilmToShow] = []
+    private var listVideoToShow:[VideoToShow] = []
+    private var listFilms:[VideoToShow] = []
+    private var listTvs:[VideoToShow] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +43,10 @@ class TopViewController: UIViewController {
                     print("Return Success TopFilm size : \(resp.count)")
                     self.listFilms = resp
                     self.listVideoToShow = resp
+                    self.updateImgsFilm(findNb: 0)
                     DispatchQueue.main.async {
                         self.tableFilms.reloadData()
                     }
-                    self.updateImgsFilm(findNb: 0)
                 case .ZeroData:
                     print("Return zero")
                     //TODO: Next
@@ -57,7 +57,9 @@ class TopViewController: UIViewController {
             }
             //TODO: get data and show them
         } else {
+            print("=== TopFilm size : \(listFilms.count)")
             listVideoToShow = listFilms
+            updateImgsFilm(findNb: 0)
             DispatchQueue.main.async {
                 self.tableFilms.reloadData() }
         }
@@ -76,7 +78,6 @@ class TopViewController: UIViewController {
                             self.tableFilms.reloadData()
                         }
                         updateImgsFilm(findNb: findNb + 1)
-                        
                     case .Failure(failure: let error):
                         print("******> error", error.localizedDescription)
                     }
@@ -99,10 +100,10 @@ class TopViewController: UIViewController {
                     print("Return Success TopFilmTV size : \(resp.count)")
                     self.listTvs = resp
                     self.listVideoToShow = resp
+                    self.updateImgsTv(findNb: 0)
                     DispatchQueue.main.async {
                         self.tableFilms.reloadData()
                     }
-                    self.updateImgsTv(findNb: 0)
                 case .ZeroData:
                     print("Return zero")
                     //TODO: Next
@@ -113,7 +114,9 @@ class TopViewController: UIViewController {
             }
             //TODO: get data and show them
         } else {
+            print("=== TopFilmTV size : \(listTvs.count)")
             listVideoToShow = listTvs
+            updateImgsTv(findNb: 0)
             DispatchQueue.main.async {
                 self.tableFilms.reloadData() }
         }

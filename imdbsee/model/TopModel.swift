@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum ResultTopFilms {
-    case Success(response: [FilmToShow])
+enum ResultTopVideo {
+    case Success(response: [VideoToShow])
     case ZeroData
     case Failure(failure: DataTopError)
 }
@@ -22,13 +22,13 @@ class TopModel {
     private init() {}
     
     private let manageCoredata = ManageCoreData.shared
-    private let download = Download.shared
+    private let download = DownloadManager.shared
     
     private func getApiKey(keyName: String) -> String? {
         return manageCoredata.getOneKey(keyName: keyName)
     }
     
-    public func loadListTops(type: String, completionHandler: @escaping(ResultTopFilms) -> Void ){
+    public func loadListTops(type: String, completionHandler: @escaping(ResultTopVideo) -> Void ){
         let topOpt = manageCoredata.getAllDataTop(withName: type)
         
         if let tops = topOpt {
@@ -38,8 +38,6 @@ class TopModel {
                 completionHandler(.Success(response: listFilmToShowSorted))
             } else {
                 //TODO: NEXT
-                //let urlOpt = prepareUrlToDownloadTop(type: type)
-                //downloadData(urlOpt: urlOpt) ....
             }
         } else {
             let urlOpt = prepareUrlToDownloadTop(type: type)
@@ -51,7 +49,7 @@ class TopModel {
                     switch result {
                     case .Success(response: let tblRespVideoImdb):
                         self.manageCoredata.saveTop(resp: tblRespVideoImdb, type: type)
-                        let listFilmToShow:[FilmToShow] = self.transformTblrespvideoimdbToFilmtoshow(resp: tblRespVideoImdb)
+                        let listFilmToShow:[VideoToShow] = self.transformTblrespvideoimdbToFilmtoshow(resp: tblRespVideoImdb)
                         let listFilmToShowSorted = self.orderListFilmtoshow(list: listFilmToShow)
                         completionHandler(.Success(response: listFilmToShowSorted))
                     case .Failure(failure: let failure):
@@ -63,17 +61,17 @@ class TopModel {
             }
         }
     }
-    private func orderListFilmtoshow(list: [FilmToShow]) -> [FilmToShow] {
+    private func orderListFilmtoshow(list: [VideoToShow]) -> [VideoToShow] {
         //return list.sorted(by: { $0.rank > $1.rank })
         let sorted = list.sorted { fl, fr -> Bool in
             return fl.rank < fr.rank
         }
         return sorted
     }
-    private func transformTblrespvideoimdbToFilmtoshow(resp: [ResponseVideoImdb]) -> [FilmToShow] {
-        var listFilmToShow:[FilmToShow] = []
+    private func transformTblrespvideoimdbToFilmtoshow(resp: [ResponseVideoImdb]) -> [VideoToShow] {
+        var listFilmToShow:[VideoToShow] = []
         resp.forEach({ rvi in
-            var fts = FilmToShow()
+            var fts = VideoToShow()
             if let id = rvi.id {
                 fts.id = id
                 if let rank = rvi.rank {
@@ -86,7 +84,7 @@ class TopModel {
                     fts.year = Int16(year)!
                 }
                 if let img = rvi.image {
-                    fts.image = img
+                    fts.urlImg = img
                 }
                 if let rating = rvi.imDbRating {
                     fts.imDbRating = Double(rating) ?? 0.0
@@ -103,8 +101,8 @@ class TopModel {
         return listFilmToShow
     }
     private func saveDataTop(){ }
-    private func transformFilmtotopToFilmtoshow(filmtotop: Set<FilmToTop>) -> [FilmToShow] {
-        var listFilmToShow:[FilmToShow] = []
+    private func transformFilmtotopToFilmtoshow(filmtotop: Set<FilmToTop>) -> [VideoToShow] {
+        var listFilmToShow:[VideoToShow] = []
         for ftp in filmtotop {
             if let film  = ftp.ftpToFilm {
                 var filmToShow = transformFilmToFilmtoshow(film: film)
@@ -132,8 +130,8 @@ class TopModel {
         url = url.replacingOccurrences(of: Constants.strPatternApikey, with: apiKeyInDb)
         return url
     }
-    private func transformFilmToFilmtoshow(film: Film) -> FilmToShow {
-        var filmToShow = FilmToShow()
+    private func transformFilmToFilmtoshow(film: Film) -> VideoToShow {
+        var filmToShow = VideoToShow()
         filmToShow.id = film.idFilm!
         filmToShow.imDbRatingCount = film.ratingCount
         if let title = film.title {
@@ -144,7 +142,7 @@ class TopModel {
         filmToShow.crews = film.crews ?? ""
         filmToShow.urlImg = film.urlImg ?? ""
         if let img = film.urlImg {
-            filmToShow.image = img
+            filmToShow.urlImg = img
         }
         return filmToShow
     }

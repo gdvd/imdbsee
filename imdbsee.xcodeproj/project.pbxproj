@@ -14,7 +14,7 @@
 		121B80C527D6165E00CBC0F6 /* TopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80C427D6165E00CBC0F6 /* TopModel.swift */; };
 		121B80C727D616E500CBC0F6 /* PrefViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80C627D616E500CBC0F6 /* PrefViewController.swift */; };
 		121B80C927D6170C00CBC0F6 /* PrefModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80C827D6170C00CBC0F6 /* PrefModel.swift */; };
-		121B80CD27D75A9B00CBC0F6 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80CC27D75A9B00CBC0F6 /* Download.swift */; };
+		121B80CD27D75A9B00CBC0F6 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80CC27D75A9B00CBC0F6 /* DownloadManager.swift */; };
 		121B80D027D7964500CBC0F6 /* kenyc.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 121B80CF27D7964500CBC0F6 /* kenyc.ttf */; };
 		121B80D227D797F400CBC0F6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80D127D797F400CBC0F6 /* TabBarController.swift */; };
 		121B80D427D79D2600CBC0F6 /* ManageCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80D327D79D2500CBC0F6 /* ManageCoreData.swift */; };
@@ -44,7 +44,7 @@
 		12C675B727E11E41002C9A8A /* Pref+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C675AB27E11E41002C9A8A /* Pref+CoreDataClass.swift */; };
 		12C675B827E11E41002C9A8A /* Pref+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C675AC27E11E41002C9A8A /* Pref+CoreDataProperties.swift */; };
 		12F0366027DB9075002E9FC1 /* ResponseImdb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0365F27DB9075002E9FC1 /* ResponseImdb.swift */; };
-		12F036F227DF8D79002E9FC1 /* FilmToShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F036F127DF8D79002E9FC1 /* FilmToShow.swift */; };
+		12F036F227DF8D79002E9FC1 /* VideoToShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F036F127DF8D79002E9FC1 /* VideoToShow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +72,7 @@
 		121B80C427D6165E00CBC0F6 /* TopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopModel.swift; sourceTree = "<group>"; };
 		121B80C627D616E500CBC0F6 /* PrefViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefViewController.swift; sourceTree = "<group>"; };
 		121B80C827D6170C00CBC0F6 /* PrefModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefModel.swift; sourceTree = "<group>"; };
-		121B80CC27D75A9B00CBC0F6 /* Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
+		121B80CC27D75A9B00CBC0F6 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		121B80CF27D7964500CBC0F6 /* kenyc.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = kenyc.ttf; sourceTree = "<group>"; };
 		121B80D127D797F400CBC0F6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		121B80D327D79D2500CBC0F6 /* ManageCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCoreData.swift; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 		12C675AB27E11E41002C9A8A /* Pref+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pref+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		12C675AC27E11E41002C9A8A /* Pref+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pref+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		12F0365F27DB9075002E9FC1 /* ResponseImdb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseImdb.swift; sourceTree = "<group>"; };
-		12F036F127DF8D79002E9FC1 /* FilmToShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmToShow.swift; sourceTree = "<group>"; };
+		12F036F127DF8D79002E9FC1 /* VideoToShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoToShow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +137,7 @@
 		121B80CE27D75AA100CBC0F6 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				121B80CC27D75A9B00CBC0F6 /* Download.swift */,
+				121B80CC27D75A9B00CBC0F6 /* DownloadManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -178,7 +178,7 @@
 				121B80F327D9F05F00CBC0F6 /* SaveInUserDefault.swift */,
 				121B80F827DA3A6A00CBC0F6 /* ElementTop.swift */,
 				12F0365F27DB9075002E9FC1 /* ResponseImdb.swift */,
-				12F036F127DF8D79002E9FC1 /* FilmToShow.swift */,
+				12F036F127DF8D79002E9FC1 /* VideoToShow.swift */,
 				121B80FA27DA505700CBC0F6 /* ElementVideo.swift */,
 			);
 			path = entitiesNoDB;
@@ -432,12 +432,12 @@
 				12C675B627E11E41002C9A8A /* Film+CoreDataProperties.swift in Sources */,
 				12C675AE27E11E41002C9A8A /* Top+CoreDataProperties.swift in Sources */,
 				12C675AD27E11E41002C9A8A /* Top+CoreDataClass.swift in Sources */,
-				12F036F227DF8D79002E9FC1 /* FilmToShow.swift in Sources */,
+				12F036F227DF8D79002E9FC1 /* VideoToShow.swift in Sources */,
 				12C675AF27E11E41002C9A8A /* FilmToPerson+CoreDataClass.swift in Sources */,
 				121B80D227D797F400CBC0F6 /* TabBarController.swift in Sources */,
 				121B80F427D9F05F00CBC0F6 /* SaveInUserDefault.swift in Sources */,
 				12B795C827D605FA0004C869 /* AppDelegate.swift in Sources */,
-				121B80CD27D75A9B00CBC0F6 /* Download.swift in Sources */,
+				121B80CD27D75A9B00CBC0F6 /* DownloadManager.swift in Sources */,
 				12C675B327E11E41002C9A8A /* Person+CoreDataClass.swift in Sources */,
 				12C675B127E11E41002C9A8A /* FilmToTop+CoreDataClass.swift in Sources */,
 				121B80F927DA3A6A00CBC0F6 /* ElementTop.swift in Sources */,

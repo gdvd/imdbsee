@@ -39,36 +39,8 @@ class ManageCoreData {
         }
     }
     public func saveTop(resp: [ResponseVideoImdb], type: String){
-        print("============= SaveData in DB")
         DispatchQueue.main.async {
-        let top = self.createOrUpdateTopEntity(withName: type)
-        resp.forEach { oneVideo in
-            if let id = oneVideo.id, let title = oneVideo.title {
-                let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
-                if let film = filmOpt {
-                    let ftp = FilmToTop(context: AppDelegate.viewContext)
-                    if let rank = oneVideo.rank {
-                        ftp.rank = Int16(rank)!
-                        ftp.ftpToFilm = film
-                        ftp.ftpToTop = top
-                        do { try AppDelegate.viewContext.save() }
-                        catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                }
-            } else {
-                print("Pb")
-            }
-        }
-        }
-    }
-
-    public func saveDataTop(resp: [ResponseVideoImdb], type: String) -> Bool {
-        
-        let top = createOrUpdateTopEntity(withName: type)
-        var nbError = 0
-            
+            let top = self.createOrUpdateTopEntity(withName: type)
             resp.forEach { oneVideo in
                 if let id = oneVideo.id, let title = oneVideo.title {
                     let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
@@ -80,60 +52,14 @@ class ManageCoreData {
                             ftp.ftpToTop = top
                             do { try AppDelegate.viewContext.save() }
                             catch {
-                                nbError += 1
                                 print(error.localizedDescription)
                             }
                         }
                     }
-                    if nbError > 5 { return }
                 } else {
-                    print("Pb")
+                    print("************* saveTop Pb")
                 }
             }
-        if nbError > 5 { 
-            return false 
-        } else {
-            return true }
-    }
-    private func filmWithIdVideo(idFilm: String, title: String, oneVideo: ResponseVideoImdb) -> Film?{
-        
-        let request: NSFetchRequest<Film> = Film.fetchRequest()
-        request.predicate = NSPredicate(format: "idFilm == %@", idFilm)
-        let filmOpt = try? AppDelegate.viewContext.fetch(request)
-        if filmOpt != nil && filmOpt != [] {
-            return filmOpt![0]
-        } else {
-            let film = Film(context: AppDelegate.viewContext)
-            film.idFilm = idFilm
-            film.title = title
-            let rating = oneVideo.imDbRating ?? "0.0"
-            film.rating = Double(rating) ?? 0
-            let ratingCount = oneVideo.imDbRatingCount ?? "0"
-            film.ratingCount = Int32(ratingCount) ?? 0
-            let year = oneVideo.year ?? "0"
-            film.year = Int16(year) ?? 0
-            film.urlImg = oneVideo.image ?? ""
-            film.crews = oneVideo.crew ?? ""
-            do {
-                try? AppDelegate.viewContext.save()
-                return film
-            }
-        }
-    }
-    
-    private func deleteAllRank0(top: Top){
-        // Delete all FilmToTop with top
-        let request: NSFetchRequest<FilmToTop> = FilmToTop.fetchRequest()
-        request.predicate = NSPredicate(format: "ftpToTop == %@", top)
-        do {
-            let topOpt = try? AppDelegate.viewContext.fetch(request)
-            for entity in topOpt! {
-                print("****** Delete obj FilmToTop with rank\t\(entity.rank)")
-                AppDelegate.viewContext.delete(entity)
-            }
-        }
-        do { try AppDelegate.viewContext.save() } catch {
-            print("Error", error.localizedDescription)
         }
     }
     public func createOrUpdateTopEntity(withName type: String) -> Top {
@@ -167,6 +93,79 @@ class ManageCoreData {
         }
         return top
         
+    }
+
+    public func saveDataTop(resp: [ResponseVideoImdb], type: String) -> Bool {
+        
+        let top = createOrUpdateTopEntity(withName: type)
+        var nbError = 0
+            
+            resp.forEach { oneVideo in
+                if let id = oneVideo.id, let title = oneVideo.title {
+                    let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
+                    if let film = filmOpt {
+                        let ftp = FilmToTop(context: AppDelegate.viewContext)
+                        if let rank = oneVideo.rank {
+                            ftp.rank = Int16(rank)!
+                            ftp.ftpToFilm = film
+                            ftp.ftpToTop = top
+                            do { try AppDelegate.viewContext.save() }
+                            catch {
+                                nbError += 1
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                    if nbError > 5 { return }
+                } else {
+                    print("************* saveDataTop PbPb")
+                }
+            }
+        if nbError > 5 { 
+            return false 
+        } else {
+            return true }
+    }
+    private func filmWithIdVideo(idFilm: String, title: String, oneVideo: ResponseVideoImdb) -> Film?{
+        
+        let request: NSFetchRequest<Film> = Film.fetchRequest()
+        request.predicate = NSPredicate(format: "idFilm == %@", idFilm)
+        let filmOpt = try? AppDelegate.viewContext.fetch(request)
+        if filmOpt != nil && filmOpt != [] {
+            return filmOpt![0]
+        } else {
+            let film = Film(context: AppDelegate.viewContext)
+            film.idFilm = idFilm
+            film.title = title
+            let rating = oneVideo.imDbRating ?? "0.0"
+            film.rating = Double(rating) ?? 0
+            let ratingCount = oneVideo.imDbRatingCount ?? "0"
+            film.ratingCount = Int32(ratingCount) ?? 0
+            let year = oneVideo.year ?? "0"
+            film.year = Int16(year) ?? 0
+            film.urlImg = oneVideo.image ?? ""
+            film.crews = oneVideo.crew ?? ""
+            do {
+                try? AppDelegate.viewContext.save()
+                return film
+            }
+        }
+    }
+    
+    private func deleteAllRank(top: Top){
+        // Delete all FilmToTop with top
+        let request: NSFetchRequest<FilmToTop> = FilmToTop.fetchRequest()
+        request.predicate = NSPredicate(format: "ftpToTop == %@", top)
+        do {
+            let topOpt = try? AppDelegate.viewContext.fetch(request)
+            for entity in topOpt! {
+                print("****** Delete obj FilmToTop with rank\t\(entity.rank)")
+                AppDelegate.viewContext.delete(entity)
+            }
+        }
+        do { try AppDelegate.viewContext.save() } catch {
+            print("Error", error.localizedDescription)
+        }
     }
     private func createOrUpdateTopEntity_OLD(withName type: String) -> Top {
         let request: NSFetchRequest<Top> = Top.fetchRequest()
@@ -218,14 +217,13 @@ class ManageCoreData {
         }
         return false
     }
-    private func saveOneKey(keyName: String, key: String) -> String?{
+    private func saveOneKey(keyName: String, key: String) -> String? {
         let pref = Pref(context: AppDelegate.viewContext)
         pref.key = key
         pref.apiKeyName = keyName
         do {
             try AppDelegate.viewContext.save()
-        } catch let error {
-            print("***saveOneKey> ",error.localizedDescription)
+        } catch {
             return nil
         }
         return pref.key
@@ -249,7 +247,6 @@ class ManageCoreData {
                 try AppDelegate.viewContext.save()
             }
             catch {
-                print("***updateOneKey> ",error.localizedDescription)
                 return nil
             }
             return pref.key

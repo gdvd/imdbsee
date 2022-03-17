@@ -22,9 +22,9 @@ enum ResultData{
     case Failure(failure: RequestError)
 }
 
-class Download {
+class DownloadManager {
     
-    public static let shared = Download()
+    public static let shared = DownloadManager()
     private var task: URLSessionDataTask?
     init() {}
     
