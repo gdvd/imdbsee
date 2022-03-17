@@ -43,6 +43,8 @@
 		12C675B627E11E41002C9A8A /* Film+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C675AA27E11E41002C9A8A /* Film+CoreDataProperties.swift */; };
 		12C675B727E11E41002C9A8A /* Pref+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C675AB27E11E41002C9A8A /* Pref+CoreDataClass.swift */; };
 		12C675B827E11E41002C9A8A /* Pref+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C675AC27E11E41002C9A8A /* Pref+CoreDataProperties.swift */; };
+		12C675BA27E38E60002C9A8A /* ListFilmFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C675B927E38E60002C9A8A /* ListFilmFoundViewController.swift */; };
+		12C675BC27E3BEEF002C9A8A /* FilmCustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C675BB27E3BEEF002C9A8A /* FilmCustomTableViewCell.swift */; };
 		12F0366027DB9075002E9FC1 /* ResponseImdb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0365F27DB9075002E9FC1 /* ResponseImdb.swift */; };
 		12F036F227DF8D79002E9FC1 /* VideoToShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F036F127DF8D79002E9FC1 /* VideoToShow.swift */; };
 /* End PBXBuildFile section */
@@ -105,6 +107,8 @@
 		12C675AA27E11E41002C9A8A /* Film+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Film+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		12C675AB27E11E41002C9A8A /* Pref+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pref+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		12C675AC27E11E41002C9A8A /* Pref+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pref+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		12C675B927E38E60002C9A8A /* ListFilmFoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilmFoundViewController.swift; sourceTree = "<group>"; };
+		12C675BB27E3BEEF002C9A8A /* FilmCustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCustomTableViewCell.swift; sourceTree = "<group>"; };
 		12F0365F27DB9075002E9FC1 /* ResponseImdb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseImdb.swift; sourceTree = "<group>"; };
 		12F036F127DF8D79002E9FC1 /* VideoToShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoToShow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -242,6 +246,7 @@
 				12B795CD27D605FA0004C869 /* Main.storyboard */,
 				12B795D527D605FC0004C869 /* LaunchScreen.storyboard */,
 				121B80F527DA377100CBC0F6 /* TopCustomTableViewCell.swift */,
+				12C675BB27E3BEEF002C9A8A /* FilmCustomTableViewCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 				121B80D127D797F400CBC0F6 /* TabBarController.swift */,
 				121B80BE27D60D9200CBC0F6 /* PeopleViewController.swift */,
 				121B80C227D6162A00CBC0F6 /* TopViewController.swift */,
+				12C675B927E38E60002C9A8A /* ListFilmFoundViewController.swift */,
 				121B80C627D616E500CBC0F6 /* PrefViewController.swift */,
 			);
 			path = controller;
@@ -411,6 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				12C675B827E11E41002C9A8A /* Pref+CoreDataProperties.swift in Sources */,
+				12C675BA27E38E60002C9A8A /* ListFilmFoundViewController.swift in Sources */,
 				12C675B427E11E41002C9A8A /* Person+CoreDataProperties.swift in Sources */,
 				12B795CC27D605FA0004C869 /* FilmViewController.swift in Sources */,
 				121B80C127D614CE00CBC0F6 /* PeopleModel.swift in Sources */,
@@ -429,6 +436,7 @@
 				121B80F627DA377100CBC0F6 /* TopCustomTableViewCell.swift in Sources */,
 				12C675B727E11E41002C9A8A /* Pref+CoreDataClass.swift in Sources */,
 				12B795D227D605FA0004C869 /* imdbsee.xcdatamodeld in Sources */,
+				12C675BC27E3BEEF002C9A8A /* FilmCustomTableViewCell.swift in Sources */,
 				12C675B627E11E41002C9A8A /* Film+CoreDataProperties.swift in Sources */,
 				12C675AE27E11E41002C9A8A /* Top+CoreDataProperties.swift in Sources */,
 				12C675AD27E11E41002C9A8A /* Top+CoreDataClass.swift in Sources */,

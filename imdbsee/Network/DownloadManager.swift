@@ -16,6 +16,7 @@ enum RequestError: Error {
     case returnNil
     case statusCodeWrong
     case decodeError
+    case messageError(msg: String)
 }
 enum ResultData{
     case Success(response: Data)
@@ -51,7 +52,7 @@ class DownloadManager {
         }
         task?.resume()
     }
-    public func downloadImg(){
+   /* public func downloadImg(){
         var semaphore = DispatchSemaphore (value: 0)
         
         var request = URLRequest(url: URL(string: "https://imdb-api.com/en/API/Title/k_1234567/tt1832382")!,timeoutInterval: Double.infinity)
@@ -66,8 +67,9 @@ class DownloadManager {
         }
         task.resume()
         semaphore.wait()
-    }
+    }*/
     
+    // Request Top Film
     public func downloadVideoImdb(url: String, completionHandler: @escaping (Networkresponse<[ResponseVideoImdb]>) -> Void){
         
         var request = URLRequest(url: URL(string: url)!)
@@ -92,5 +94,36 @@ class DownloadManager {
         task?.resume()
     }
     
-    
+    // Request Search Film
+    public func searchVideoImdb(url: String, completionHandler: @escaping (Networkresponse<[ResultSearch]>) -> Void){
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        
+        task?.cancel()
+        task = session.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completionHandler(Networkresponse.Failure(failure: RequestError.returnNil))
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completionHandler(.Failure(failure: RequestError.statusCodeWrong))
+                return
+            }
+            guard let responseJSON = try? JSONDecoder().decode(ResponseSearch.self, from: data) else{
+                completionHandler(.Failure(failure: RequestError.decodeError))
+                return
+            }
+            guard let responseResult = responseJSON.results else {
+                if let msgErr = responseJSON.errorMessage {
+                    completionHandler(.Failure(failure: RequestError.messageError(msg: msgErr)))
+                } else {
+                    completionHandler(.Failure(failure: RequestError.decodeError))
+                }
+                return
+            }
+            completionHandler(.Success(response: responseResult))
+        }
+        task?.resume()
+    }
 }

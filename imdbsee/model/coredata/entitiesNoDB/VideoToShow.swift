@@ -18,3 +18,11 @@ struct VideoToShow {
     var urlImg: String = ""
     var dataImg: Data?
 }
+struct FilmToShow {
+    var id: String = ""
+    var title: String = ""
+    var description = ""
+    var resultType = ""
+    var urlImg: String = ""
+    var dataImg: Data?
+}

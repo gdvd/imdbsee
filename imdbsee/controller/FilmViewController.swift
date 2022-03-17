@@ -10,6 +10,7 @@ import UIKit
 class FilmViewController: UIViewController {
 
     private let filmModel = FilmModel.shared
+    private var listFilms: [FilmToShow] = []
     
     @IBOutlet weak var btnSearch: UIButton!
     
@@ -24,7 +25,19 @@ class FilmViewController: UIViewController {
         showdialogbox()
     }
     
-    private func testAction(msg: String){
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "segueListFilm" {
+                let destinationVC = segue.destination as! ListFilmFoundViewController
+                destinationVC.listFilms = listFilms
+            }
+        }
+    func goToListFilmFound(){
+        DispatchQueue.main.async { 
+            self.performSegue(withIdentifier: "segueListFilm", sender: self)
+        }
+    }
+    
+    private func goToSearchFilm(msg: String){
         if !msg.isEmpty {
             filmModel.serachFilm(withKeyword: msg) { 
                 
@@ -32,8 +45,10 @@ class FilmViewController: UIViewController {
                 guard let self = self else { return }
                 
                 switch result {
-                case .Success(response: let resp):
-                    print("Return Success TopFilm size : \(resp.count)")
+                case .Success(response: let responseSearchFilm):
+                    self.listFilms = responseSearchFilm
+                    self.updateImgsFilm(findNb: 0)
+                    //self.goToListFilmFound()
                 case .ZeroData:
                     print("Return zero")//TODO: Next
                 case .Failure(failure: let failure):
@@ -43,7 +58,28 @@ class FilmViewController: UIViewController {
             }
         }
     }
-
+    
+    private func updateImgsFilm(findNb: Int) {
+        if findNb < listFilms.count {
+            let urlImgToDowloadNow = listFilms[findNb].urlImg
+            if urlImgToDowloadNow.count > 10 {
+                filmModel.searchOneImage(url: urlImgToDowloadNow) {
+                    [self] result in
+                    switch result {
+                    case .Success(let dataImg):
+                        self.listFilms[findNb].dataImg = dataImg
+                        updateImgsFilm(findNb: findNb + 1)
+                    case .Failure(failure: let error):
+                        print("******> error", error.localizedDescription)
+                    }
+                }
+            }else {
+                updateImgsFilm(findNb: findNb + 1)
+            }
+        } else {
+            goToListFilmFound()
+        }
+    }
     private func showdialogbox(){
         let alert = UIAlertController(title: "Title request", message: nil, preferredStyle: .alert)
         /*
@@ -53,11 +89,12 @@ class FilmViewController: UIViewController {
         
         alert.addTextField { (textField) in
             textField.placeholder = "enter title"
+            textField.textContentType = .name
         }
         alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { [self, weak alert] (_) in
             guard let textField = alert?.textFields?[0], let userText = textField.text else { return }
-            testAction(msg: userText)
+            goToSearchFilm(msg: userText)
         }))
                 
         self.present(alert, animated: true, completion: nil)
