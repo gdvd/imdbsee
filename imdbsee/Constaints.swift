@@ -16,7 +16,10 @@ enum Constants {
     
     // Youtube
     static let urlYoutube = "https://imdb-api.com/API/YouTube?apiKey={apiKeyImdb}v={idVideo}"
-    static let patternIdVideoYoutube = "{idVideo}"
+    static let patternIdVideo = "{idVideo}"
+    
+    // Wikipedia
+    static let urlWiki = "https://imdb-api.com/fr/API/Wikipedia/{apiKeyImdb}/{idVideo}"
     
     // Search
     static let urlSearchMovies = "https://imdb-api.com/en/API/SearchMovie/{apiKeyImdb}/{keyWordsTitleMovie}"

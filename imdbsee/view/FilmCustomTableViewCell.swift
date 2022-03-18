@@ -10,37 +10,35 @@ import UIKit
 class FilmCustomTableViewCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var type: UILabel!
     @IBOutlet weak var desc: UILabel!
-    
     @IBOutlet weak var img: UIImageView!
     
     private var elementToShow: FilmToShow!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+
+    func configure(elementVideo: FilmToShow){
+//        if let element = elementVideo {
+            elementToShow = elementVideo
+            print("elementToShow.title", elementVideo.title)
+            title.text = elementVideo.title
+            desc.text = elementVideo.description
+            updateImg(imgData: elementVideo.dataImg)
+//        }
+    }
     
-    fileprivate func updateImg() {
-        if let dataImg = elementToShow.dataImg {
+    fileprivate func updateImg(imgData: Data?) {
+        if let dataImg = imgData {
             if let image = UIImage(data: dataImg){
                 img.image = image
             }
         }
-    }
-
-    func configure(elementVideo: FilmToShow){
-        elementToShow = elementVideo
-        print("elementToShow.title", elementToShow.title)
-        title.text = elementToShow.title
-        type.text = elementToShow.resultType
-        desc.text = elementToShow.resultType
-        updateImg()
     }
     
 }

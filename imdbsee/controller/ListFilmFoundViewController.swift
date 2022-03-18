@@ -10,6 +10,7 @@ import UIKit
 class ListFilmFoundViewController: UIViewController {
 
     var listFilms: [FilmToShow] = []
+    private var rowSelected = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class ListFilmFoundViewController: UIViewController {
 }
 //MARK: - TableViewDataSource
 extension ListFilmFoundViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -37,6 +39,18 @@ extension ListFilmFoundViewController: UITableViewDataSource, UITableViewDelegat
         }
         cell.configure(elementVideo: listFilms[indexPath.row])
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        rowSelected = indexPath[1]
+        print("--->rowSelected", rowSelected)
+        performSegue(withIdentifier: "segueShowdetailFilm", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueShowdetailFilm" {
+            let detailVC = segue.destination as! FilmDetailViewController
+            detailVC.filmToShow = listFilms[rowSelected]
+        }
     }
     
 }

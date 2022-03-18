@@ -40,7 +40,6 @@ class FilmViewController: UIViewController {
     private func goToSearchFilm(msg: String){
         if !msg.isEmpty {
             filmModel.serachFilm(withKeyword: msg) { 
-                
                 [weak self] result in
                 guard let self = self else { return }
                 
@@ -48,7 +47,6 @@ class FilmViewController: UIViewController {
                 case .Success(response: let responseSearchFilm):
                     self.listFilms = responseSearchFilm
                     self.updateImgsFilm(findNb: 0)
-                    //self.goToListFilmFound()
                 case .ZeroData:
                     print("Return zero")//TODO: Next
                 case .Failure(failure: let failure):
@@ -64,11 +62,13 @@ class FilmViewController: UIViewController {
             let urlImgToDowloadNow = listFilms[findNb].urlImg
             if urlImgToDowloadNow.count > 10 {
                 filmModel.searchOneImage(url: urlImgToDowloadNow) {
-                    [self] result in
+                    [weak self] result in
+                    guard let self = self else { return }
+                    
                     switch result {
                     case .Success(let dataImg):
                         self.listFilms[findNb].dataImg = dataImg
-                        updateImgsFilm(findNb: findNb + 1)
+                        self.updateImgsFilm(findNb: findNb + 1)
                     case .Failure(failure: let error):
                         print("******> error", error.localizedDescription)
                     }
@@ -82,10 +82,6 @@ class FilmViewController: UIViewController {
     }
     private func showdialogbox(){
         let alert = UIAlertController(title: "Title request", message: nil, preferredStyle: .alert)
-        /*
-         [LayoutConstraints] Changing the translatesAutoresizingMaskIntoConstraints property of a UICollectionViewCell that is managed by a UICollectionView is not supported, and will result in incorrect self-sizing. View: <_UIAlertControllerTextFieldViewCollectionCell: 0x100d36360; frame = (0 0; 270 24); gestureRecognizers = <NSArray: 0x280bedd10>; layer = <CALayer: 0x2805d2280>>
-         */
-        //alert.view.translatesAutoresizingMaskIntoConstraints = false
         
         alert.addTextField { (textField) in
             textField.placeholder = "enter title"
