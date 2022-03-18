@@ -27,11 +27,11 @@ class FilmModel {
     
     public func serachFilm(withKeyword: String, completionHandler: @escaping(ResultFilm) -> Void){
         
+        //Prepare urlString
         let apiKeyInDbOptional = getApiKey(keyName: Constants.nameApiKeyImdb)
         guard let apiKeyInDb = apiKeyInDbOptional, apiKeyInDbOptional != "" else { 
-            completionHandler(.Failure(failure: .downloadError(response: "*****apiKeyError"))) 
+            completionHandler(.Failure(failure: .downloadError(response: "ApiKeyError"))) 
             return }
-        
         let reqKeyWords = withKeyword.replacingOccurrences(of: " ", with: "%20")
         var req = Constants.urlSearchMovies.replacingOccurrences(of: Constants.strPatternApikey, with: apiKeyInDb)
         req = req.replacingOccurrences(of: Constants.strPatternKeyWordsTitleMovie, with: reqKeyWords)

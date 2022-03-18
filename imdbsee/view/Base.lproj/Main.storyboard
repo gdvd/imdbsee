@@ -242,7 +242,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i09-vG-9KO">
                                 <rect key="frame" x="20" y="422" width="374" height="391"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Hello world" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a1Q-Vu-M3a">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello world" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a1Q-Vu-M3a">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="391"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>

@@ -34,6 +34,33 @@ class DownloadManager {
     init(session: URLSession){
         self.session = session
     }
+    
+    // Wikipedia
+    public func downloadInfoWiki(url: String, completionHandler: @escaping (Networkresponse<ResponseWiki>) -> Void){
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        
+        task?.cancel()
+        task = session.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completionHandler(Networkresponse.Failure(failure: RequestError.returnNil))
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completionHandler(.Failure(failure: RequestError.statusCodeWrong))
+                return
+            }
+            guard let responseJSON = try? JSONDecoder().decode(ResponseWiki.self, from: data) else{
+                completionHandler(.Failure(failure: RequestError.decodeError))
+                return
+            }
+            completionHandler(.Success(response: responseJSON))
+        }
+        task?.resume()
+    }
+    
+    // Image
     public func downloadImage(url: String, completionHandler: @escaping (ResultData) -> Void) {
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = "GET"
@@ -52,22 +79,6 @@ class DownloadManager {
         }
         task?.resume()
     }
-   /* public func downloadImg(){
-        var semaphore = DispatchSemaphore (value: 0)
-        
-        var request = URLRequest(url: URL(string: "https://imdb-api.com/en/API/Title/k_1234567/tt1832382")!,timeoutInterval: Double.infinity)
-        request.httpMethod = "GET"
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in 
-          guard let data = data else {
-            print(String(describing: error))
-            return
-          }
-          print(String(data: data, encoding: .utf8)!)
-          semaphore.signal()
-        }
-        task.resume()
-        semaphore.wait()
-    }*/
     
     // Request Top Film
     public func downloadVideoImdb(url: String, completionHandler: @escaping (Networkresponse<[ResponseVideoImdb]>) -> Void){

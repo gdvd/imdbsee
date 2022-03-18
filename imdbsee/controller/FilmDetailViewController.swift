@@ -10,6 +10,9 @@ import UIKit
 class FilmDetailViewController: UIViewController {
 
     var filmToShow: FilmToShow!
+    var respWiki: ResponseWiki?
+    private let filmDetailModel = FilmDetailModel.shared
+    
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var titleFilm: UILabel!
     @IBOutlet weak var desc: UILabel!
@@ -25,12 +28,44 @@ class FilmDetailViewController: UIViewController {
         super.viewDidLoad()
         showInfo()
         selectSegment(nb: 0)
+        getInfoWiki()
     }
     
     private func showInfo() {
         titleFilm.text = filmToShow.title
         desc.text = filmToShow.description
         updateImg(imgData: filmToShow.dataImg)
+    }
+    
+    private func getInfoWiki(){
+        if let infoWiki = respWiki {
+            showInfoWiki(infoWiki: infoWiki)
+        } else {
+            filmDetailModel.getInfoWiki(idTtImdb: filmToShow.id, language: Language.Fr){ 
+                [weak self] 
+                response in
+                guard let self = self else { return }
+
+                switch response {
+                case .Success(response: let resp):
+                    print(resp)
+                    self.respWiki = resp
+                    self.showInfoWiki(infoWiki: resp)
+                case .Failure(failure: let err):
+                    print("*****error", err.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func showInfoWiki(infoWiki: ResponseWiki) {
+        if let plot = infoWiki.plotShort {
+            if let plainText = plot.plainText {
+                DispatchQueue.main.async { [self] in
+                    textFieldWiki.text = plainText
+                }
+            }
+        }
     }
     
     fileprivate func updateImg(imgData: Data?) {

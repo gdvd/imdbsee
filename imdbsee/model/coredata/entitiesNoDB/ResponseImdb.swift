@@ -10,7 +10,6 @@ import Foundation
 struct ResponseItemVideoImdb: Codable {
     var items: [ResponseVideoImdb]
 }
-
 struct ResponseVideoImdb: Codable {
     var id: String?
     var rank: String?
@@ -22,6 +21,7 @@ struct ResponseVideoImdb: Codable {
     var imDbRatingCount: String?
     
 }
+///
 struct ResponseSearch: Codable {
     var searchType: String?
     var expression: String?
@@ -34,4 +34,19 @@ struct ResultSearch: Codable {
     var image: String?
     var title: String?
     var description: String?
+}
+///
+struct ResponseWiki: Codable {
+    var imDbId: String?
+    var title: String?
+    var fullTitle: String?
+    var type: String?
+    var year: String?
+    var language: String?
+    var titleInLanguage: String?
+    var url: String?
+    var plotShort: PlotShortWiki?
+}
+struct PlotShortWiki: Codable {
+    var plainText: String?
 }
