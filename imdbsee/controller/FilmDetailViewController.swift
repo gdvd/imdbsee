@@ -11,6 +11,7 @@ class FilmDetailViewController: UIViewController {
 
     var filmToShow: FilmToShow!
     var respWiki: ResponseWiki?
+    var respYoutube: ResponseYoutube?
     private let filmDetailModel = FilmDetailModel.shared
     
     @IBOutlet weak var img: UIImageView!
@@ -36,7 +37,7 @@ class FilmDetailViewController: UIViewController {
         desc.text = filmToShow.description
         updateImg(imgData: filmToShow.dataImg)
     }
-    
+    //MARK: -Wiki
     private func getInfoWiki(){
         if let infoWiki = respWiki {
             showInfoWiki(infoWiki: infoWiki)
@@ -67,7 +68,43 @@ class FilmDetailViewController: UIViewController {
             }
         }
     }
+    //MARK: -Youtube
+    private func showInfoYoutube(infoYoutube: ResponseYoutube){
+        if let urlYt = infoYoutube.videoId, infoYoutube.errorMessage == "" {
+            if let url = URL(string: urlYt) {
+                UIApplication.shared.open(url)
+            }
+        } else {
+            if let err = infoYoutube.errorMessage {
+                print("*******ErrorReturnErrYT", err)
+            } else {
+                print("*******ErrorReturnErrYT without msg")
+            }
+            
+        }
+    }
     
+    private func getUrlYoutube(){
+        if let youtube = respYoutube {
+            showInfoYoutube(infoYoutube: youtube)
+        } else {
+            filmDetailModel.getUrlYoutube(idTtImdb: filmToShow.id, language: Language.Fr){ 
+                [weak self] 
+                response in
+                guard let self = self else { return }
+
+                switch response {
+                case .Success(response: let resp):
+                    print("======ResponseYoutube>",resp)
+                    self.showInfoYoutube(infoYoutube: resp)
+                case .Failure(failure: let err):
+                    print("*****error", err.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    //MARK: -Actions
     fileprivate func updateImg(imgData: Data?) {
         if let dataImg = imgData {
             if let image = UIImage(data: dataImg){
@@ -86,15 +123,17 @@ class FilmDetailViewController: UIViewController {
     }
     
     @IBAction func segmentChange(_ sender: UISegmentedControl) {
-        print("segment change")
         selectSegment(nb: sender.selectedSegmentIndex)
     }
     
     @IBAction func getTrailerImdb(_ sender: UIButton) {
-        print("I want to see IMDB")
+        if let url = URL(string: Constants.urlImdbWithTitle + filmToShow.id) {
+            UIApplication.shared.open(url)
+        }
     }
     
     @IBAction func getTrailerYoutube(_ sender: UIButton) {
-        print("I want to see Youtube")
+        print("-----> I want to see Youtube")
+        getUrlYoutube()
     }
 }

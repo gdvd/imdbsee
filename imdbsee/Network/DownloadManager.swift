@@ -60,6 +60,31 @@ class DownloadManager {
         task?.resume()
     }
     
+    // Youtube
+    public func downloadInfoYoutube(url: String, completionHandler: @escaping (Networkresponse<ResponseYoutube>) -> Void){
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        
+        task?.cancel()
+        task = session.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completionHandler(Networkresponse.Failure(failure: RequestError.returnNil))
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completionHandler(.Failure(failure: RequestError.statusCodeWrong))
+                return
+            }
+            guard let responseJSON = try? JSONDecoder().decode(ResponseYoutube.self, from: data) else{
+                completionHandler(.Failure(failure: RequestError.decodeError))
+                return
+            }
+            completionHandler(.Success(response: responseJSON))
+        }
+        task?.resume()
+    }
+    
     // Image
     public func downloadImage(url: String, completionHandler: @escaping (ResultData) -> Void) {
         var request = URLRequest(url: URL(string: url)!)

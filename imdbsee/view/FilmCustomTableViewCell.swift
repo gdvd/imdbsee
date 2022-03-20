@@ -25,10 +25,10 @@ class FilmCustomTableViewCell: UITableViewCell {
 
     func configure(elementVideo: FilmToShow){
 //        if let element = elementVideo {
+        print(elementVideo)
             elementToShow = elementVideo
-            print("elementToShow.title", elementVideo.title)
             title.text = elementVideo.title
-            desc.text = elementVideo.description
+            desc.text = "\(elementVideo.description)"
             updateImg(imgData: elementVideo.dataImg)
 //        }
     }

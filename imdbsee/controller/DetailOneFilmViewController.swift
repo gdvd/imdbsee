@@ -11,6 +11,7 @@ class DetailOneFilmViewController: UIViewController {
 
     var videoToShow: VideoToShow!
     var respWiki: ResponseWiki?
+    var respYoutube: ResponseYoutube?
     private let filmDetailModel = FilmDetailModel.shared
 
     
@@ -39,6 +40,66 @@ class DetailOneFilmViewController: UIViewController {
         getInfoWiki()
     }
     
+    //MARK: -Init
+    private func showInfo() {
+        titleFilm.text = "\n" + videoToShow.title
+        desc.text = videoToShow.crews
+        updateImg(imgData: videoToShow.dataImg)
+    }
+    
+    fileprivate func updateImg(imgData: Data?) {
+        if let dataImg = imgData {
+            if let image = UIImage(data: dataImg){
+                img.image = image
+            }
+        }
+    }
+    private func selectSegment(nb: Int) {
+        if nb == 0 {
+            viewWiki.isHidden = false
+            viewMore.isHidden = true
+        } else {
+            viewWiki.isHidden = true
+            viewMore.isHidden = false
+        }
+    }
+    
+    //MARK: -Youtube
+    private func showInfoYoutube(infoYoutube: ResponseYoutube){
+        if let urlYt = infoYoutube.videoId, infoYoutube.errorMessage == "" {
+            if let url = URL(string: urlYt) {
+                UIApplication.shared.open(url)
+            }
+        } else {
+            if let err = infoYoutube.errorMessage {
+                print("*******ErrorReturnErrYT", err)
+            } else {
+                print("*******ErrorReturnErrYT without msg")
+            }
+            
+        }
+    }
+    
+    private func getUrlYoutube(){
+        if let youtube = respYoutube {
+            showInfoYoutube(infoYoutube: youtube)
+        } else {
+            filmDetailModel.getUrlYoutube(idTtImdb: videoToShow.id, language: Language.Fr){ 
+                [weak self] 
+                response in
+                guard let self = self else { return }
+
+                switch response {
+                case .Success(response: let resp):
+                    print("======ResponseYoutube>",resp)
+                    self.showInfoYoutube(infoYoutube: resp)
+                case .Failure(failure: let err):
+                    print("*****error", err.localizedDescription)
+                }
+            }
+        }
+    }
+    //MARK: -Wiki
     private func getInfoWiki(){
         if let infoWiki = respWiki {
             showInfoWiki(infoWiki: infoWiki)
@@ -70,31 +131,8 @@ class DetailOneFilmViewController: UIViewController {
             }
         }
     }
-    
-    private func showInfo() {
-        titleFilm.text = "\n" + videoToShow.title
-        desc.text = videoToShow.crews
-        updateImg(imgData: videoToShow.dataImg)
-    }
-    
-    fileprivate func updateImg(imgData: Data?) {
-        if let dataImg = imgData {
-            if let image = UIImage(data: dataImg){
-                img.image = image
-            }
-        }
-    }
-    private func selectSegment(nb: Int) {
-        if nb == 0 {
-            viewWiki.isHidden = false
-            viewMore.isHidden = true
-        } else {
-            viewWiki.isHidden = true
-            viewMore.isHidden = false
-        }
-    }
 
-    
+    //MARK: -Actions
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
         selectSegment(nb: sender.selectedSegmentIndex)
     }
