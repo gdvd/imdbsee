@@ -19,10 +19,7 @@ class TopCustomTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleFilm: UILabel!
     @IBOutlet weak var imgFilm: UIImageView!
-    @IBOutlet weak var year: UILabel!
-    @IBOutlet weak var rank: UILabel!
-    @IBOutlet weak var rating: UILabel!
-    @IBOutlet weak var crews: UILabel!
+    @IBOutlet weak var desc: UILabel!
     
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -39,11 +36,8 @@ class TopCustomTableViewCell: UITableViewCell {
     
     func configure(elementVideo: VideoToShow){
         elementToShow = elementVideo
-        titleFilm.text = elementToShow.title 
-        year.text = "\(elementToShow.year)"
-        rank.text = "\(elementToShow.rank)"
-        rating.text = "\(elementToShow.imDbRating)/\(elementToShow.imDbRatingCount)"
-        crews.text = "\(elementToShow.crews)"
+        titleFilm.text = elementToShow.title
+        desc.text = "\(elementToShow.year) \n\(elementToShow.rank) \n\(elementToShow.imDbRating)\n\(elementToShow.imDbRatingCount)"
         updateImg()
     }
 

@@ -34,6 +34,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     }
     
+    static var viewContextBg: NSManagedObjectContext {
+        let context = persistentContainer.newBackgroundContext()
+        context.automaticallyMergesChangesFromParent = true
+        return context
+    }
+    
     static var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }

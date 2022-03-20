@@ -20,7 +20,7 @@ class ListFilmFoundViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        print("listFilms.count", listFilms.count)
+//        print("listFilms.count", listFilms.count)
     }
     
 }
@@ -43,7 +43,7 @@ extension ListFilmFoundViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         rowSelected = indexPath[1]
-        print("--->rowSelected", rowSelected)
+//        print("--->rowSelected", rowSelected)
         performSegue(withIdentifier: "segueShowdetailFilm", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

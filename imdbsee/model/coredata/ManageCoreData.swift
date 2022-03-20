@@ -12,16 +12,7 @@ class ManageCoreData {
     public static let shared = ManageCoreData()
     init() {}
     
-    //private let context = AppDelegate.viewContext
-//    private static var getContext: NSManagedObjectContext {
-//        if Thread.current.isMainThread {
-//            return AppDelegate.viewContext
-//        } else {
-//            return DispatchQueue.main.sync {
-//                return AppDelegate.viewContext
-//            }
-//        }
-//    }
+
     //MARK: - TopVideo
     public func getAllDataTop(withName type: String) -> Top? {
         let request: NSFetchRequest<Top> = Top.fetchRequest()
@@ -39,6 +30,7 @@ class ManageCoreData {
         }
     }
     public func saveTop(resp: [ResponseVideoImdb], type: String){
+
         DispatchQueue.main.async {
             let top = self.createOrUpdateTopEntity(withName: type)
             resp.forEach { oneVideo in
@@ -61,6 +53,7 @@ class ManageCoreData {
                 }
             }
         }
+        
     }
     public func createOrUpdateTopEntity(withName type: String) -> Top {
         

@@ -50,3 +50,13 @@ struct ResponseWiki: Codable {
 struct PlotShortWiki: Codable {
     var plainText: String?
 }
+struct ResponseYoutube: Codable {
+    var imDbId: String?
+    var title: String?
+    var fullTitle: String?
+    var type: String?
+    var year: String?
+    var videoId: String?
+    var videoUrl: String?
+    var errorMessage: String?
+}

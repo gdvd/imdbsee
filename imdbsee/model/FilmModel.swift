@@ -35,7 +35,6 @@ class FilmModel {
         let reqKeyWords = withKeyword.replacingOccurrences(of: " ", with: "%20")
         var req = Constants.urlSearchMovies.replacingOccurrences(of: Constants.strPatternApikey, with: apiKeyInDb)
         req = req.replacingOccurrences(of: Constants.strPatternKeyWordsTitleMovie, with: reqKeyWords)
-        print("Request :",req)
         
         download.searchVideoImdb(url: req) { 
             [weak self] response in
@@ -45,7 +44,7 @@ class FilmModel {
             case .Success(response: let responseSearchFilm):
                 completionHandler(.Success(response: self.transformResultsearchToVideotoshow(resultssearch: responseSearchFilm)))
             case .Failure(failure: let error):
-                print("error", error.localizedDescription)
+                print("********error", error.localizedDescription)
                 completionHandler(.Failure(failure: .downloadError(response: error.localizedDescription)))
             }
         }
@@ -85,14 +84,3 @@ class FilmModel {
         }
     }
 }
-/*
- var id: String?
- var rank: String?
- var title: String?
- var year: String?
- var image: String?
- var crew: String?
- var imDbRating: String?
- var imDbRatingCount: String?
- 
- */

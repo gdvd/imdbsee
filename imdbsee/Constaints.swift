@@ -15,12 +15,15 @@ enum Constants {
     static let strPatternApikey = "{apiKeyImdb}"
     
     // Youtube
-    static let urlYoutube = "https://imdb-api.com/API/YouTube?apiKey={apiKeyImdb}v={idVideo}"
+    static let urlYoutube = "https://imdb-api.com/{language}/API/YouTubeTrailer/{apiKeyImdb}v={idVideo}"
     static let patternIdVideo = "{idVideo}"
     
     // Wikipedia
     static let urlWiki = "https://imdb-api.com/{language}/API/Wikipedia/{apiKeyImdb}/{idVideo}"
     static let patternLanguage = "{language}"
+    
+    // IMDB.com
+    static let urlImdbWithTitle = "https://www.imdb.com/title/"
     
     // Search
     static let urlSearchMovies = "https://imdb-api.com/en/API/SearchMovie/{apiKeyImdb}/{keyWordsTitleMovie}"
@@ -35,7 +38,6 @@ enum Constants {
     static let txtEdit = "Edit"    
     static let txtSave = "Save"
     
-    // https://imdb-api.com/API/YouTube?apiKey=k_faxfi11b&v=8hP9D6kZseM
     
 }
 enum Language: String {

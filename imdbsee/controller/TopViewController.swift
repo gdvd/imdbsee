@@ -10,6 +10,7 @@ import UIKit
 class TopViewController: UIViewController {
     
     private let topModel = TopModel.shared
+    private var rowSelected = 0
     
     @IBOutlet weak var listsSegmented: UISegmentedControl!
     @IBOutlet weak var tableFilms: UITableView!
@@ -30,6 +31,8 @@ class TopViewController: UIViewController {
             loadListTopTvs()
         }
     }
+    
+
     //MARK: - TopFilm
     private func loadListTopFilms(){
         if listFilms.count == 0 {
@@ -79,7 +82,7 @@ class TopViewController: UIViewController {
                         }
                         updateImgsFilm(findNb: findNb + 1)
                     case .Failure(failure: let error):
-                        print("******> error", error.localizedDescription)
+                        print("******TVCupdateImgsFilm> error\(listVideoToShow[findNb].title)  \(urlImgToDowloadNow) ", error.localizedDescription)
                     }
                 }
             }else {
@@ -137,7 +140,7 @@ class TopViewController: UIViewController {
                         updateImgsFilm(findNb: findNb + 1)
                         
                     case .Failure(failure: let error):
-                        print("******> error", error.localizedDescription)
+                        print("******updateImgsTv> error", error.localizedDescription)
                     }
                 }
             }else {
@@ -165,6 +168,18 @@ extension TopViewController: UITableViewDataSource, UITableViewDelegate {
         }
         cell.configure(elementVideo: listVideoToShow[indexPath.row])
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        rowSelected = indexPath[1]
+//        print("--->rowSelected", rowSelected)
+        performSegue(withIdentifier: "segueTopToDetail", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueTopToDetail" {
+            let detailVC = segue.destination as! DetailOneFilmViewController
+            detailVC.videoToShow = listVideoToShow[rowSelected]
+        }
     }
     
 }
