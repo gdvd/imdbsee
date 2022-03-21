@@ -12,7 +12,9 @@ class TopViewController: UIViewController {
     private let topModel = TopModel.shared
     private var rowSelected = 0
     
-    @IBOutlet weak var listsSegmented: UISegmentedControl!
+    private var step = 5
+    
+    @IBOutlet weak var segment: UISegmentedControl!
     @IBOutlet weak var tableFilms: UITableView!
     
     private var listVideoToShow:[VideoToShow] = []
@@ -25,6 +27,11 @@ class TopViewController: UIViewController {
     }
 
     private func initTable(seg: Int) {
+        DispatchQueue.main.async{
+            self.segment.isEnabled = false
+        }
+        listVideoToShow = []
+        checkAndRemoveFooter()
         if seg == 0 {
             loadListTopFilms()
         } else if seg == 1 {
@@ -33,7 +40,7 @@ class TopViewController: UIViewController {
     }
     
 
-    //MARK: - TopFilm
+    //MARK: - Update tableFilms
     private func loadListTopFilms(){
         if listFilms.count == 0 {
             topModel.loadListTops(type: Constants.strTopFilms){
@@ -44,50 +51,89 @@ class TopViewController: UIViewController {
                 switch result {
                 case .Success(response: let resp):
                     self.listFilms = resp
-                    self.listVideoToShow = resp
-                    self.updateImgsFilm(findNb: 0)
-                    DispatchQueue.main.async {
-                        self.tableFilms.reloadData()
-                    }
+                    self.updateListToShow(withType: self.segment.selectedSegmentIndex)
                 case .ZeroData:
                     print("***********loadListTopFilms> Return zero")
                     //TODO: Next
+                    DispatchQueue.main.async{
+                        self.segment.isEnabled = true
+                    }
                 case .Failure(let error):
                     print("***********loadListTopFilms> Return Failure with error :", error.localizedDescription)
                     //TODO: Next
+                    DispatchQueue.main.async{
+                        self.segment.isEnabled = true
+                    }
                 }
             }
             //TODO: get data and show them
         } else {
-            listVideoToShow = listFilms
-            updateImgsFilm(findNb: 0)
+            self.updateListToShow(withType: self.segment.selectedSegmentIndex)
             DispatchQueue.main.async {
                 self.tableFilms.reloadData() }
         }
     }
-    private func updateImgsFilm(findNb: Int) {
-        if findNb < listVideoToShow.count && findNb < listFilms.count {
-            let urlImgToDowloadNow = listVideoToShow[findNb].urlImg
-            if urlImgToDowloadNow.count > 10 {
-                topModel.searchOneImage(url: urlImgToDowloadNow) {
-                    [self] result in
-                    switch result {
-                    case .Success(let dataImg):
-                        self.listFilms[findNb].dataImg = dataImg
-                        self.listVideoToShow[findNb].dataImg = dataImg
-                        DispatchQueue.main.async {
-                            self.tableFilms.reloadData()
+    private func updateListToShow(withType: Int) {
+        let begin = listVideoToShow.count
+        
+        switch withType {
+        case 0:
+            let end = getRange(begin: begin, sizeMax: listFilms.count)
+            let list = listFilms[begin..<end]
+            updateImgsVideo(listVideoToAppend: list)
+        case 1:
+            let end = getRange(begin: begin, sizeMax: listTvs.count)
+            let list = listTvs[begin..<end]
+            updateImgsVideo(listVideoToAppend: list)
+        default:
+            break
+        }
+    }
+    private func getRange(begin: Int, sizeMax: Int) -> Int {
+        if (begin + step) <  sizeMax {
+            return begin + step
+        } else {
+            return sizeMax
+        }
+    }
+    private func updateImgsVideo(listVideoToAppend: ArraySlice<VideoToShow>) {
+        var listVideoToApp = listVideoToAppend
+        if listVideoToApp.count != 0 {
+            let elementVideo = listVideoToApp.first
+            listVideoToApp.removeFirst()
+            if var video = elementVideo {
+                if video.urlImg != "" {
+                    topModel.searchOneImage(url: video.urlImg) {
+                        [self] result in
+                        //guard let self = self else { return }
+                        switch result {
+                        case .Success(let dataImg):
+                            video.dataImg = dataImg
+                            self.listVideoToShow.append(video)
+                            updateImgsVideo(listVideoToAppend: listVideoToApp)
+                        case .Failure(failure: let error):
+                            print("******TVCupdateImgsFilm> error\(video.title)  \(video.urlImg) ", error.localizedDescription)
                         }
-                        updateImgsFilm(findNb: findNb + 1)
-                    case .Failure(failure: let error):
-                        print("******TVCupdateImgsFilm> error\(listVideoToShow[findNb].title)  \(urlImgToDowloadNow) ", error.localizedDescription)
                     }
                 }
-            }else {
-                updateImgsFilm(findNb: findNb + 1)
+            }
+        } else {
+            checkAndRemoveFooter()
+            DispatchQueue.main.async{
+                self.segment.isEnabled = true
             }
         }
     }
+    private func checkAndRemoveFooter(){
+        DispatchQueue.main.async { [self] in
+            if tableFilms.tableFooterView != nil {
+                tableFilms.tableFooterView = nil
+            } else {
+            }
+            self.tableFilms.reloadData()
+        }
+    }
+
     //MARK: - TopTv
     private func loadListTopTvs() {
         if listTvs.count == 0 {
@@ -99,49 +145,30 @@ class TopViewController: UIViewController {
                 switch result {
                 case .Success(response: let resp):
                     self.listTvs = resp
-                    self.listVideoToShow = resp
-                    self.updateImgsTv(findNb: 0)
-                    DispatchQueue.main.async {
-                        self.tableFilms.reloadData()
+                    DispatchQueue.main.async{
+                        var seg = self.segment.selectedSegmentIndex
+                        self.updateListToShow(withType: self.segment.selectedSegmentIndex)
                     }
+                    
                 case .ZeroData:
-                    print("*************loadListTopTvs> Return zero")
+                    print("***********loadListTopFilms> Return zero")
                     //TODO: Next
+                    DispatchQueue.main.async{
+                        self.segment.isEnabled = true
+                    }
                 case .Failure(let error):
-                    print("*************loadListTopTvs> Return Failure with error :", error.localizedDescription)
+                    print("***********loadListTopFilms> Return Failure with error :", error.localizedDescription)
                     //TODO: Next
+                    DispatchQueue.main.async{
+                        self.segment.isEnabled = true
+                    }
                 }
             }
             //TODO: get data and show them
         } else {
-            listVideoToShow = listTvs
-            updateImgsTv(findNb: 0)
+            self.updateListToShow(withType: self.segment.selectedSegmentIndex)
             DispatchQueue.main.async {
                 self.tableFilms.reloadData() }
-        }
-    }
-    private func updateImgsTv(findNb: Int) {
-        if findNb < listVideoToShow.count && findNb < listTvs.count {
-            let urlImgToDowloadNow = listVideoToShow[findNb].urlImg
-            if urlImgToDowloadNow.count > 10 {
-                topModel.searchOneImage(url: urlImgToDowloadNow) {
-                    [self] result in
-                    switch result {
-                    case .Success(let dataImg):
-                        self.listVideoToShow[findNb].dataImg = dataImg
-                        self.listTvs[findNb].dataImg = dataImg
-                        DispatchQueue.main.async {
-                            self.tableFilms.reloadData()
-                        }
-                        updateImgsFilm(findNb: findNb + 1)
-                        
-                    case .Failure(failure: let error):
-                        print("******updateImgsTv> error", error.localizedDescription)
-                    }
-                }
-            }else {
-                updateImgsFilm(findNb: findNb + 1)
-            }
         }
     }
 
@@ -151,7 +178,7 @@ class TopViewController: UIViewController {
 }
 
 //MARK: - TableViewDataSource
-extension TopViewController: UITableViewDataSource, UITableViewDelegate {
+extension TopViewController: UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -175,6 +202,25 @@ extension TopViewController: UITableViewDataSource, UITableViewDelegate {
             let detailVC = segue.destination as! DetailOneFilmViewController
             detailVC.videoToShow = listVideoToShow[rowSelected]
         }
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position > (tableFilms.contentSize.height + 50 - scrollView.frame.size.height) {
+            
+            // Fetch more data
+            DispatchQueue.main.async {
+                self.tableFilms.tableFooterView = self.createSpinnerFooter()
+            }
+            updateListToShow(withType: segment.selectedSegmentIndex)
+        }
+    }
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        return footerView
     }
     
 }

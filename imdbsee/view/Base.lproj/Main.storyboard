@@ -319,7 +319,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Top" image="top" id="NSx-xY-cnG"/>
                     <connections>
-                        <outlet property="listsSegmented" destination="5n7-wU-J9E" id="atT-78-tdG"/>
+                        <outlet property="segment" destination="5n7-wU-J9E" id="atT-78-tdG"/>
                         <outlet property="tableFilms" destination="ZTf-qN-nD8" id="LE9-n0-IDr"/>
                         <segue destination="Je5-I5-vMZ" kind="presentation" identifier="segueTopToDetail" id="p0n-lV-NCq"/>
                     </connections>
@@ -342,23 +342,53 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="g7T-w6-4ec">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="264"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="u2r-o7-xVH">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cUc-ku-3Ai">
                                                 <rect key="frame" x="0.0" y="0.0" width="148" height="264"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjB-1H-DTG">
-                                                        <rect key="frame" x="0.0" y="0.0" width="148" height="124"/>
-                                                        <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="16"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8e-E1-Wg7">
-                                                        <rect key="frame" x="0.0" y="140" width="148" height="124"/>
-                                                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgS-eu-Ulj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="43.666666666666664" height="25"/>
+                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="25" id="46P-us-39B"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="X">
+                                                            <fontDescription key="titleFontDescription" type="system" weight="heavy" pointSize="27"/>
+                                                            <color key="baseForegroundColor" systemColor="systemYellowColor"/>
+                                                        </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="closeAction:" destination="Je5-I5-vMZ" eventType="touchUpInside" id="f07-U6-Y2J"/>
+                                                        </connections>
+                                                    </button>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="u2r-o7-xVH">
+                                                        <rect key="frame" x="0.0" y="25" width="148" height="239"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjB-1H-DTG">
+                                                                <rect key="frame" x="0.0" y="0.0" width="148" height="117"/>
+                                                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="16"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8e-E1-Wg7">
+                                                                <rect key="frame" x="0.0" y="122" width="148" height="117"/>
+                                                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
                                                 </subviews>
-                                            </stackView>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="u2r-o7-xVH" secondAttribute="trailing" id="JHj-v4-1WP"/>
+                                                    <constraint firstItem="u2r-o7-xVH" firstAttribute="top" secondItem="lgS-eu-Ulj" secondAttribute="bottom" id="JOJ-ki-GAY"/>
+                                                    <constraint firstItem="u2r-o7-xVH" firstAttribute="leading" secondItem="cUc-ku-3Ai" secondAttribute="leading" id="MMK-VY-JlR"/>
+                                                    <constraint firstItem="lgS-eu-Ulj" firstAttribute="top" secondItem="cUc-ku-3Ai" secondAttribute="top" id="Mbp-Xh-6g4"/>
+                                                    <constraint firstAttribute="bottom" secondItem="u2r-o7-xVH" secondAttribute="bottom" id="PNI-e6-MC7"/>
+                                                    <constraint firstItem="lgS-eu-Ulj" firstAttribute="leading" secondItem="cUc-ku-3Ai" secondAttribute="leading" id="h1v-jf-oWs"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lgS-eu-Ulj" secondAttribute="trailing" constant="20" symbolic="YES" id="xh5-R3-D3E"/>
+                                                </constraints>
+                                            </view>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jl3-gZ-7k7">
                                                 <rect key="frame" x="158" y="0.0" width="192" height="264"/>
                                                 <constraints>
@@ -495,33 +525,14 @@
                                     <constraint firstAttribute="trailing" secondItem="U17-pY-00O" secondAttribute="trailing" id="pNo-on-3aK"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgS-eu-Ulj">
-                                <rect key="frame" x="20" y="44" width="25" height="25"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="46P-us-39B"/>
-                                    <constraint firstAttribute="width" secondItem="lgS-eu-Ulj" secondAttribute="height" multiplier="1:1" id="Tcv-9J-JgT"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="X">
-                                    <fontDescription key="titleFontDescription" type="system" weight="heavy" pointSize="27"/>
-                                    <color key="baseForegroundColor" systemColor="systemYellowColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="closeAction:" destination="Je5-I5-vMZ" eventType="touchUpInside" id="f07-U6-Y2J"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="utR-0r-ned"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="lgS-eu-Ulj" firstAttribute="top" secondItem="Aq7-JD-4ba" secondAttribute="top" id="1xs-AT-327"/>
-                            <constraint firstItem="utR-0r-ned" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lgS-eu-Ulj" secondAttribute="trailing" symbolic="YES" id="33K-N8-yzj"/>
                             <constraint firstItem="Aq7-JD-4ba" firstAttribute="leading" secondItem="utR-0r-ned" secondAttribute="leading" constant="20" id="A9E-q3-T7a"/>
                             <constraint firstItem="Aq7-JD-4ba" firstAttribute="top" secondItem="utR-0r-ned" secondAttribute="top" id="SWW-xt-lV7"/>
                             <constraint firstItem="utR-0r-ned" firstAttribute="trailing" secondItem="Aq7-JD-4ba" secondAttribute="trailing" constant="20" id="j5E-fY-DF6"/>
                             <constraint firstItem="utR-0r-ned" firstAttribute="bottom" secondItem="Aq7-JD-4ba" secondAttribute="bottom" constant="40" id="oZ2-JB-eZO"/>
-                            <constraint firstItem="lgS-eu-Ulj" firstAttribute="leading" secondItem="Aq7-JD-4ba" secondAttribute="leading" id="tLj-vZ-oW5"/>
                         </constraints>
                     </view>
                     <connections>
