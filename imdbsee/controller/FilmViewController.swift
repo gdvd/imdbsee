@@ -10,7 +10,7 @@ import UIKit
 class FilmViewController: UIViewController {
 
     private let filmModel = FilmModel.shared
-    private var listFilms: [FilmToShow] = []
+    private var listFilms: [VideoToShow] = []
     
     @IBOutlet weak var btnSearch: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -28,14 +28,13 @@ class FilmViewController: UIViewController {
 
 
     @IBAction func btnSearchAction(_ sender: UIButton) {
-        print("SEARCH Films")
         showdialogbox()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "segueListFilm" {
                 let destinationVC = segue.destination as! ListFilmFoundViewController
-                destinationVC.listFilms = listFilms
+                destinationVC.listVideoToShow = listFilms
             }
         }
     func goToListFilmFound(){
@@ -70,7 +69,7 @@ class FilmViewController: UIViewController {
     
     private func activityIndicatorAction(state: Bool) {
         if state {
-            DispatchQueue.main.async { 
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.activityIndicator.startAnimating()
                 self.activityIndicator.isHidden = false
                 self.btnSearch.isHidden = true
@@ -116,9 +115,7 @@ class FilmViewController: UIViewController {
             textField.placeholder = "enter title"
             textField.textContentType = .name
         }
-        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            print("Handle Cancel Logic here")
-      }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { [self, weak alert] (_) in
             guard let textField = alert?.textFields?[0], let userText = textField.text else { return }
             goToSearchFilm(msg: userText)

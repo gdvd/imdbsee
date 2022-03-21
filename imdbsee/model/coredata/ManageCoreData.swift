@@ -44,7 +44,7 @@ class ManageCoreData {
                             ftp.ftpToTop = top
                             do { try AppDelegate.viewContext.save() }
                             catch {
-                                print(error.localizedDescription)
+                                print("**********saveTop>",error.localizedDescription)
                             }
                         }
                     }
@@ -69,7 +69,7 @@ class ManageCoreData {
                     try AppDelegate.viewContext.save()
                 }
                 catch {
-                    print(error.localizedDescription)
+                    print("*******createOrUpdateTopEntity 2>",error.localizedDescription)
                 }
                 return top[0]
             }
@@ -82,7 +82,7 @@ class ManageCoreData {
         do {
             try AppDelegate.viewContext.save()
         } catch {
-            print(error.localizedDescription)
+            print("*************createOrUpdateTopEntity>",error.localizedDescription)
         }
         return top
         
@@ -105,7 +105,7 @@ class ManageCoreData {
                             do { try AppDelegate.viewContext.save() }
                             catch {
                                 nbError += 1
-                                print(error.localizedDescription)
+                                print("********saveDataTop>",error.localizedDescription)
                             }
                         }
                     }
@@ -157,7 +157,7 @@ class ManageCoreData {
             }
         }
         do { try AppDelegate.viewContext.save() } catch {
-            print("Error", error.localizedDescription)
+            print("***********deleteAllRank>", error.localizedDescription)
         }
     }
     private func createOrUpdateTopEntity_OLD(withName type: String) -> Top {
@@ -172,7 +172,7 @@ class ManageCoreData {
                 try AppDelegate.viewContext.save()
             }
             catch {
-                print(error.localizedDescription)
+                print("*******createOrUpdateTopEntity_OLD",error.localizedDescription)
             }
             ////////////////////////////////// Modified
             //deleteAllRank(top: top[0])
@@ -185,7 +185,7 @@ class ManageCoreData {
             do {
                 try AppDelegate.viewContext.save()
             } catch {
-                print(error.localizedDescription)
+                print("*******createOrUpdateTopEntity_OLD 2",error.localizedDescription)
             }
             return top
         }

@@ -45,9 +45,10 @@ struct ResponseWiki: Codable {
     var language: String?
     var titleInLanguage: String?
     var url: String?
-    var plotShort: PlotShortWiki?
+    var plotShort: PlotWiki?
+    var plotFull: PlotWiki?
 }
-struct PlotShortWiki: Codable {
+struct PlotWiki: Codable {
     var plainText: String?
 }
 struct ResponseYoutube: Codable {
@@ -59,4 +60,26 @@ struct ResponseYoutube: Codable {
     var videoId: String?
     var videoUrl: String?
     var errorMessage: String?
+}
+struct ResponseFullcast: Codable {
+    var imDbId: String?
+    var title: String?
+    var fullTitle: String?
+    var type: String?
+    var year: String?
+    var directors: ResponseDirectorsItems?
+    var writers: ResponseWritersItems?
+    var actors: [ResponsePerson]?
+    var errorMessage: String?
+}
+struct ResponseDirectorsItems: Codable {
+    var items: [ResponsePerson]?
+}
+struct ResponseWritersItems: Codable {
+    var items: [ResponsePerson]?
+}
+struct ResponsePerson: Codable {
+    var id: String?
+    var name: String?
+    var image: String?
 }

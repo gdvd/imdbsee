@@ -43,7 +43,6 @@ class TopViewController: UIViewController {
                 
                 switch result {
                 case .Success(response: let resp):
-                    print("Return Success TopFilm size : \(resp.count)")
                     self.listFilms = resp
                     self.listVideoToShow = resp
                     self.updateImgsFilm(findNb: 0)
@@ -51,16 +50,15 @@ class TopViewController: UIViewController {
                         self.tableFilms.reloadData()
                     }
                 case .ZeroData:
-                    print("Return zero")
+                    print("***********loadListTopFilms> Return zero")
                     //TODO: Next
                 case .Failure(let error):
-                    print("Return Failure with error :", error.localizedDescription)
+                    print("***********loadListTopFilms> Return Failure with error :", error.localizedDescription)
                     //TODO: Next
                 }
             }
             //TODO: get data and show them
         } else {
-            print("=== TopFilm size : \(listFilms.count)")
             listVideoToShow = listFilms
             updateImgsFilm(findNb: 0)
             DispatchQueue.main.async {
@@ -100,7 +98,6 @@ class TopViewController: UIViewController {
                 
                 switch result {
                 case .Success(response: let resp):
-                    print("Return Success TopFilmTV size : \(resp.count)")
                     self.listTvs = resp
                     self.listVideoToShow = resp
                     self.updateImgsTv(findNb: 0)
@@ -108,16 +105,15 @@ class TopViewController: UIViewController {
                         self.tableFilms.reloadData()
                     }
                 case .ZeroData:
-                    print("Return zero")
+                    print("*************loadListTopTvs> Return zero")
                     //TODO: Next
                 case .Failure(let error):
-                    print("Return Failure with error :", error.localizedDescription)
+                    print("*************loadListTopTvs> Return Failure with error :", error.localizedDescription)
                     //TODO: Next
                 }
             }
             //TODO: get data and show them
         } else {
-            print("=== TopFilmTV size : \(listTvs.count)")
             listVideoToShow = listTvs
             updateImgsTv(findNb: 0)
             DispatchQueue.main.async {
@@ -172,7 +168,6 @@ extension TopViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         rowSelected = indexPath[1]
-//        print("--->rowSelected", rowSelected)
         performSegue(withIdentifier: "segueTopToDetail", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

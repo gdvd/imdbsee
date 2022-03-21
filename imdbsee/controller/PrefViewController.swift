@@ -38,15 +38,13 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
     
     private func saveKey() {
         if let newkey = apiKeyImdbTextField?.text {
-            print("apiKeyImdbTextField \(newkey)")
             if newkey.count > 5 {
                 let resultOpt = prefModel.saveApiKeyImdb(keyName: Constants.nameApiKeyImdb, key: newkey)
                 if resultOpt != nil {
-                    print("=====> Success")
                     currentKeyImdb = newkey
                     changeStateForNoEditionKey()
                 } else {
-                    print("****** Error, canot save apikey")
+                    print("******saveKey> Error, canot save apikey")
                     apiKeyImdbTextField.text = currentKeyImdb
                 }
             }

@@ -9,7 +9,7 @@ import UIKit
 
 class ListFilmFoundViewController: UIViewController {
 
-    var listFilms: [FilmToShow] = []
+    public var listVideoToShow:[VideoToShow] = []
     private var rowSelected = 0
     
     override func viewDidLoad() {
@@ -17,12 +17,7 @@ class ListFilmFoundViewController: UIViewController {
     }
 
     @IBOutlet weak var tableFilmFound: UITableView!
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-//        print("listFilms.count", listFilms.count)
-    }
-    
+
 }
 //MARK: - TableViewDataSource
 extension ListFilmFoundViewController: UITableViewDataSource, UITableViewDelegate {
@@ -31,25 +26,24 @@ extension ListFilmFoundViewController: UITableViewDataSource, UITableViewDelegat
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listFilms.count
+        return listVideoToShow.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "filmFoundCell", for: indexPath) as? FilmCustomTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(elementVideo: listFilms[indexPath.row])
+        cell.configure(elementVideo: listVideoToShow[indexPath.row])
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         rowSelected = indexPath[1]
-//        print("--->rowSelected", rowSelected)
-        performSegue(withIdentifier: "segueShowdetailFilm", sender: self)
+        performSegue(withIdentifier: "segueFilmfoundToDetail", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueShowdetailFilm" {
-            let detailVC = segue.destination as! FilmDetailViewController
-            detailVC.filmToShow = listFilms[rowSelected]
+        if segue.identifier == "segueFilmfoundToDetail" {
+            let detailVC = segue.destination as! DetailOneFilmViewController
+            detailVC.videoToShow = listVideoToShow[rowSelected]
         }
     }
     

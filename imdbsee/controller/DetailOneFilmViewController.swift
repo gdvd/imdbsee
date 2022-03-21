@@ -25,7 +25,9 @@ class DetailOneFilmViewController: UIViewController {
     
     @IBOutlet weak var viewWiki: UIView!
     @IBOutlet weak var textWiki: UITextView!
-    
+
+    @IBOutlet weak var viewWikiFull: UIView!
+    @IBOutlet weak var textWikiFull: UITextView!
     
     @IBOutlet weak var viewMore: UIView!
     @IBOutlet weak var buttonInfoA: UIButton!
@@ -34,10 +36,9 @@ class DetailOneFilmViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("videoToShow:", videoToShow as VideoToShow)
         showInfo()
-        selectSegment(nb: 0)
         getInfoWiki()
+        selectSegment(nb: 0)
     }
     
     //MARK: -Init
@@ -55,20 +56,34 @@ class DetailOneFilmViewController: UIViewController {
         }
     }
     private func selectSegment(nb: Int) {
-        if nb == 0 {
+        switch nb {
+        case 0:
             viewWiki.isHidden = false
+            viewWikiFull.isHidden = true
             viewMore.isHidden = true
-        } else {
+        case 1:
             viewWiki.isHidden = true
+            viewWikiFull.isHidden = false
+            viewMore.isHidden = true
+        case 2:
+            viewWiki.isHidden = true
+            viewWikiFull.isHidden = true
             viewMore.isHidden = false
+        default:
+            viewWiki.isHidden = false
+            viewWikiFull.isHidden = true
+            viewMore.isHidden = true
         }
+        
     }
     
     //MARK: -Youtube
     private func showInfoYoutube(infoYoutube: ResponseYoutube){
-        if let urlYt = infoYoutube.videoId, infoYoutube.errorMessage == "" {
+        if let urlYt = infoYoutube.videoUrl, infoYoutube.errorMessage == "" {
             if let url = URL(string: urlYt) {
-                UIApplication.shared.open(url)
+                DispatchQueue.main.async { [self] in
+                    UIApplication.shared.open(url)
+                }
             }
         } else {
             if let err = infoYoutube.errorMessage {
@@ -91,7 +106,6 @@ class DetailOneFilmViewController: UIViewController {
 
                 switch response {
                 case .Success(response: let resp):
-                    print("======ResponseYoutube>",resp)
                     self.showInfoYoutube(infoYoutube: resp)
                 case .Failure(failure: let err):
                     print("*****error", err.localizedDescription)
@@ -105,13 +119,11 @@ class DetailOneFilmViewController: UIViewController {
             showInfoWiki(infoWiki: infoWiki)
         } else {
             filmDetailModel.getInfoWiki(idTtImdb: videoToShow.id, language: Language.Fr){ 
-                [weak self] 
-                response in
+                [weak self] response in
                 guard let self = self else { return }
 
                 switch response {
                 case .Success(response: let resp):
-                    print(resp)
                     self.respWiki = resp
                     self.showInfoWiki(infoWiki: resp)
                 case .Failure(failure: let err):
@@ -122,11 +134,15 @@ class DetailOneFilmViewController: UIViewController {
     }
     
     private func showInfoWiki(infoWiki: ResponseWiki) {
-        if let plot = infoWiki.plotShort {
-            if let plainText = plot.plainText {
-                DispatchQueue.main.async { [self] in
-                    print(plainText)
+        DispatchQueue.main.async { [self] in
+            if let plot = infoWiki.plotShort {
+                if let plainText = plot.plainText {
                     textWiki.text = plainText
+                }
+            }
+            if let plotfull = infoWiki.plotFull {
+                if let plainTextFull = plotfull.plainText {
+                    textWikiFull.text = plainTextFull
                 }
             }
         }
@@ -141,7 +157,7 @@ class DetailOneFilmViewController: UIViewController {
         openUrlImdb()
     }
     @IBAction func infoBAction(_ sender: Any) {
-        print("I want to see Youtube")
+        getUrlYoutube()
     }
     
     private func openUrlImdb(){

@@ -8,7 +8,7 @@
 import Foundation
 
 enum ResultFilm {
-    case Success(response: [FilmToShow])
+    case Success(response: [VideoToShow])
     case ZeroData
     case Failure(failure: DataTopError)
 }
@@ -50,10 +50,10 @@ class FilmModel {
         }
         
     }
-    private func transformResultsearchToVideotoshow(resultssearch: [ResultSearch]) -> [FilmToShow] {
-        var listFilmToShow:[FilmToShow] = []
+    private func transformResultsearchToVideotoshow(resultssearch: [ResultSearch]) -> [VideoToShow] {
+        var listFilmToShow:[VideoToShow] = []
         resultssearch.forEach { res in
-            var fts = FilmToShow()
+            var fts = VideoToShow()
             if let id = res.id {
                 fts.id = id
             }
@@ -63,11 +63,8 @@ class FilmModel {
             if let title = res.title {
                 fts.title = title
             }
-            if let resultType = res.resultType {
-                fts.resultType = resultType
-            }
             if let desc = res.description {
-                fts.description = desc
+                fts.crews = desc
             }
             listFilmToShow.append(fts)
         }

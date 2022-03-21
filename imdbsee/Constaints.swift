@@ -29,6 +29,9 @@ enum Constants {
     static let urlSearchMovies = "https://imdb-api.com/en/API/SearchMovie/{apiKeyImdb}/{keyWordsTitleMovie}"
     static let strPatternKeyWordsTitleMovie = "{keyWordsTitleMovie}"
     
+    // FullCast
+    static let urlFullcast = "https://imdb-api.com/en/API/FullCast/{apiKeyImdb}/{idVideo}"
+    
     // Static name
     static let nameApiKeyImdb = "keyImdb"
     static let strTopFilms = "topFilms"

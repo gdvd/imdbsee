@@ -38,7 +38,6 @@ class FilmDetailModel {
         var req = Constants.urlYoutube.replacingOccurrences(of: Constants.strPatternApikey, with: apiKeyInDb)
         req = req.replacingOccurrences(of: Constants.patternLanguage, with: language.rawValue)
         req = req.replacingOccurrences(of: Constants.patternIdVideo, with: idTtImdb)
-        print("======RequestYoutube :",req)
         
         download.downloadInfoYoutube(url: req) { 
             //[weak self] 
@@ -64,7 +63,6 @@ class FilmDetailModel {
         var req = Constants.urlWiki.replacingOccurrences(of: Constants.strPatternApikey, with: apiKeyInDb)
         req = req.replacingOccurrences(of: Constants.patternLanguage, with: language.rawValue)
         req = req.replacingOccurrences(of: Constants.patternIdVideo, with: idTtImdb)
-        print("======RequestWiki :",req)
         
         download.downloadInfoWiki(url: req) { 
             //[weak self] 
