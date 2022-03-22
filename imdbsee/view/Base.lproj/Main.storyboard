@@ -596,6 +596,39 @@
                                     <constraint firstAttribute="height" constant="38" id="csy-gh-f5i"/>
                                 </constraints>
                             </stackView>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YQ-Rp-WrQ">
+                                <rect key="frame" x="16" y="206" width="358" height="31"/>
+                                <color key="backgroundColor" red="0.11342895779999999" green="0.1134516671" blue="0.1083096191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="tOT-M7-WUk"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Erase List &quot;Top Films&quot;" cornerStyle="fixed">
+                                    <fontDescription key="titleFontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
+                                    <color key="baseForegroundColor" systemColor="systemYellowColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="actionEraseTopFilms:" destination="KUF-if-Jxu" eventType="touchUpInside" id="O2d-gr-TvN"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SwB-JL-ZQn">
+                                <rect key="frame" x="16" y="274" width="358" height="31"/>
+                                <color key="backgroundColor" red="0.11342895779999999" green="0.1134516671" blue="0.1083096191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="6Ek-6L-rOS"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="31" id="vNq-oe-s3g"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Erase List &quot;Top TVs&quot;" cornerStyle="fixed">
+                                    <fontDescription key="titleFontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
+                                    <color key="baseForegroundColor" systemColor="systemYellowColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="actionEraseTopTvs:" destination="KUF-if-Jxu" eventType="touchUpInside" id="H2s-fk-miP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Had-x7-MIH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -603,7 +636,13 @@
                         <constraints>
                             <constraint firstItem="Had-x7-MIH" firstAttribute="trailing" secondItem="qbA-9x-W9L" secondAttribute="trailing" constant="20" id="80y-XY-kIc"/>
                             <constraint firstItem="qbA-9x-W9L" firstAttribute="leading" secondItem="Had-x7-MIH" secondAttribute="leading" constant="20" id="IQL-sM-aH6"/>
+                            <constraint firstItem="Had-x7-MIH" firstAttribute="trailing" secondItem="SwB-JL-ZQn" secondAttribute="trailing" constant="16" id="P7k-8C-GNe"/>
                             <constraint firstItem="qbA-9x-W9L" firstAttribute="top" secondItem="Had-x7-MIH" secondAttribute="top" constant="60" id="hLD-U1-Sr4"/>
+                            <constraint firstItem="8YQ-Rp-WrQ" firstAttribute="top" secondItem="qbA-9x-W9L" secondAttribute="bottom" constant="64" id="lNG-d5-NB3"/>
+                            <constraint firstItem="Had-x7-MIH" firstAttribute="trailing" secondItem="8YQ-Rp-WrQ" secondAttribute="trailing" constant="16" id="o6N-8g-Ad6"/>
+                            <constraint firstItem="SwB-JL-ZQn" firstAttribute="leading" secondItem="Had-x7-MIH" secondAttribute="leading" constant="16" id="oDg-fM-vKA"/>
+                            <constraint firstItem="8YQ-Rp-WrQ" firstAttribute="leading" secondItem="Had-x7-MIH" secondAttribute="leading" constant="16" id="u04-tW-ukK"/>
+                            <constraint firstItem="SwB-JL-ZQn" firstAttribute="top" secondItem="8YQ-Rp-WrQ" secondAttribute="bottom" constant="37" id="wK7-i3-1eI"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="wmK-mB-KOZ" appends="YES" id="zbx-1y-5zX"/>
@@ -613,6 +652,8 @@
                     <connections>
                         <outlet property="apiKeyImdbTextField" destination="AsR-Qy-sDn" id="27a-mI-ROG"/>
                         <outlet property="btnApikeyImdb" destination="wGd-Mb-xb9" id="lDd-uY-47H"/>
+                        <outlet property="btnEraseTopFilms" destination="8YQ-Rp-WrQ" id="gFk-HL-cwl"/>
+                        <outlet property="btnEraseTopTvs" destination="SwB-JL-ZQn" id="SoV-51-Yx1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c98-fd-97E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -622,7 +663,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="587" y="1274"/>
+            <point key="canvasLocation" x="586.15384615384619" y="1273.9336492890995"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -15,6 +15,10 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var apiKeyImdbTextField: UITextField!
     @IBOutlet weak var btnApikeyImdb: UIButton!
     
+    @IBOutlet weak var btnEraseTopFilms: UIButton!
+    @IBOutlet weak var btnEraseTopTvs: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initData()
@@ -26,6 +30,8 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
         saveKey()
         return true
     }
+    
+    //MARK: - Manage APIKey 
     private func initData() {
         if let apiKeyImdb = prefModel.getApiKey(keyName: Constants.nameApiKeyImdb) {
             apiKeyImdbTextField.text = apiKeyImdb
@@ -70,10 +76,48 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //MARK: - Manage delete topList
+    private func eraseList(type: String) {
+        print("I go to delete list", type)
+        
+        prefModel.deleteListTop(type: type) {
+            result in
+            switch result {
+            case true:
+                print("===============It's done")
+            case false:
+                self.showError(msg: "Operation failed")
+            }
+        }
+    }
+    
     private func showError(msg: String){
         let alertVC = UIAlertController(title: "Impossible", message: msg, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
     
+    
+    @IBAction func actionEraseTopFilms(_ sender: UIButton) {
+        showdialogbox(type: Constants.strTopFilms)
+    }
+    
+    
+    @IBAction func actionEraseTopTvs(_ sender: UIButton) {
+        showdialogbox(type: Constants.strTopTvs)
+    }
+    
+    private func showdialogbox(type: String){
+        let alert = UIAlertController(title: "Warning", message: "Are you sure ?", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Delete 'Top \(type)'", style: .destructive, handler: { 
+            [self] (_) in
+            self.eraseList(type: type)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }

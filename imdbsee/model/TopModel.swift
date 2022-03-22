@@ -43,7 +43,7 @@ class TopModel {
         } else {
             let urlOpt = prepareUrlToDownloadTop(type: type)
             
-            ///////
+            ////////////////
             let coredatabg = ManageCoreDataBG(context: AppDelegate.persistentContainer)
             
             if let url = urlOpt {
@@ -54,10 +54,8 @@ class TopModel {
                     switch result {
                     case .Success(response: let tblRespVideoImdb):
                         
-                        ////////////
+                        ////////////////
                         coredatabg.saveTop(resp: tblRespVideoImdb, type: type)
-                        
-                        //self.manageCoredata.saveTop(resp: tblRespVideoImdb, type: type)
                         
                         let listFilmToShow:[VideoToShow] = self.transformTblrespvideoimdbToFilmtoshow(resp: tblRespVideoImdb)
                         let listFilmToShowSorted = self.orderListFilmtoshow(list: listFilmToShow)

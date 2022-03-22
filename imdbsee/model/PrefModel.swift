@@ -22,4 +22,11 @@ class PrefModel {
         return manageCoredata.saveOrUpdateOneKey(keyName: keyName, key: key)
     }
     
+    public func deleteListTop(type: String, completionHandler: @escaping(Bool) -> Void ) {
+        manageCoredata.deleteOneTop(type: type) {
+            response in
+            completionHandler(response) 
+        }
+    }
+    
 }

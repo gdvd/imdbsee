@@ -56,6 +56,25 @@ class ManageCoreData {
         }
     }
     
+    public func deleteOneTop(type: String, completionHandler: @escaping(Bool) -> Void ) {
+        let request: NSFetchRequest<Top> = Top.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", type)
+        do {
+            let topOpt = try? AppDelegate.viewContext.fetch(request)
+            for entity in topOpt! {
+                //TODO: erase one top
+                AppDelegate.viewContext.delete(entity)
+            }
+            completionHandler(true)
+        } catch {
+            print("***********deleteAllRank>", error.localizedDescription)
+            completionHandler(false)        
+            
+        }
+        
+        
+    }
+    
     private func deleteAllRank(top: Top){
         // Delete all FilmToTop with top
         let request: NSFetchRequest<FilmToTop> = FilmToTop.fetchRequest()

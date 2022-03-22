@@ -120,21 +120,28 @@ class TopViewController: UIViewController {
             if var video = elementVideo {
                 if video.urlImg != "" {
                     topModel.searchOneImage(url: video.urlImg) {
-                        [self] result in
+                        [weak self] result in
+                        guard let self = self else { return }
 
                         switch result {
                         case .Success(let dataImg):
                             video.dataImg = dataImg
                             self.listVideoToShow.append(video)
-                            updateImgsVideo(listVideoToAppend: listVideoToApp)
+                            self.updateImgsVideo(listVideoToAppend: listVideoToApp)
                         case .Failure(failure: let error):
                             let data = UIImage(named: "filmByDefault")?.pngData()
                             video.dataImg = data
                             self.listVideoToShow.append(video)
                             print("******TVCupdateImgsFilm> error\(video.title)  \(video.urlImg)", error.localizedDescription)
-                            updateImgsVideo(listVideoToAppend: listVideoToApp)
+                            self.updateImgsVideo(listVideoToAppend: listVideoToApp)
                         }
                     }
+                } else {
+                    let data = UIImage(named: "filmByDefault")?.pngData()
+                    video.dataImg = data
+                    self.listVideoToShow.append(video)
+                    print("******TVCupdateImgsFilm> error\(video.title)")
+                    self.updateImgsVideo(listVideoToAppend: listVideoToApp)
                 }
             }
         } else {
