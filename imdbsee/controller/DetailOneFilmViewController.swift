@@ -81,15 +81,15 @@ class DetailOneFilmViewController: UIViewController {
     private func showInfoYoutube(infoYoutube: ResponseYoutube){
         if let urlYt = infoYoutube.videoUrl, infoYoutube.errorMessage == "" {
             if let url = URL(string: urlYt) {
-                DispatchQueue.main.async { [self] in
+                DispatchQueue.main.async { 
                     UIApplication.shared.open(url)
                 }
             }
         } else {
             if let err = infoYoutube.errorMessage {
-                print("*******ErrorReturnErrYT", err)
+                self.showError(msg: err)
             } else {
-                print("*******ErrorReturnErrYT without msg")
+                self.showError(msg: "Data not available (YT)")
             }
             
         }
@@ -108,7 +108,7 @@ class DetailOneFilmViewController: UIViewController {
                 case .Success(response: let resp):
                     self.showInfoYoutube(infoYoutube: resp)
                 case .Failure(failure: let err):
-                    print("*****error", err.localizedDescription)
+                    self.showError(msg: err.localizedDescription)
                 }
             }
         }
@@ -127,7 +127,7 @@ class DetailOneFilmViewController: UIViewController {
                     self.respWiki = resp
                     self.showInfoWiki(infoWiki: resp)
                 case .Failure(failure: let err):
-                    print("*****error", err.localizedDescription)
+                    self.showError(msg: err.localizedDescription)
                 }
             }
         }
@@ -170,5 +170,11 @@ class DetailOneFilmViewController: UIViewController {
         if((self.presentingViewController) != nil){
             self.dismiss(animated: true, completion: nil)
            }
+    }
+    
+    private func showError(msg: String){
+        let alertVC = UIAlertController(title: "Impossible", message: msg, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
     }
 }

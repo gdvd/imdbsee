@@ -29,96 +29,7 @@ class ManageCoreData {
             return nil
         }
     }
-    public func saveTop(resp: [ResponseVideoImdb], type: String){
-
-        DispatchQueue.main.async {
-            let top = self.createOrUpdateTopEntity(withName: type)
-            resp.forEach { oneVideo in
-                if let id = oneVideo.id, let title = oneVideo.title {
-                    let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
-                    if let film = filmOpt {
-                        let ftp = FilmToTop(context: AppDelegate.viewContext)
-                        if let rank = oneVideo.rank {
-                            ftp.rank = Int16(rank)!
-                            ftp.ftpToFilm = film
-                            ftp.ftpToTop = top
-                            do { try AppDelegate.viewContext.save() }
-                            catch {
-                                print("**********saveTop>",error.localizedDescription)
-                            }
-                        }
-                    }
-                } else {
-                    print("************* saveTop Pb")
-                }
-            }
-        }
-        
-    }
-    public func createOrUpdateTopEntity(withName type: String) -> Top {
-        
-        let dateNow = Calendar.current.dateComponents(in: .current, from: Date()).date! 
-        
-        let request: NSFetchRequest<Top> = Top.fetchRequest()
-        request.predicate = NSPredicate(format: "name == %@", type)
-        if let top = try? AppDelegate.viewContext.fetch(request) {
-            if top != [] {
-                // Already exist, then just update dateModif
-                top[0].dateModif = dateNow
-                do {
-                    try AppDelegate.viewContext.save()
-                }
-                catch {
-                    print("*******createOrUpdateTopEntity 2>",error.localizedDescription)
-                }
-                return top[0]
-            }
-        }
-        
-        // Doesn't exist, create new Top with name 'type'
-        let top = Top(context: AppDelegate.viewContext)
-        top.name = type
-        top.dateModif = dateNow
-        do {
-            try AppDelegate.viewContext.save()
-        } catch {
-            print("*************createOrUpdateTopEntity>",error.localizedDescription)
-        }
-        return top
-        
-    }
-
-    public func saveDataTop(resp: [ResponseVideoImdb], type: String) -> Bool {
-        
-        let top = createOrUpdateTopEntity(withName: type)
-        var nbError = 0
-            
-            resp.forEach { oneVideo in
-                if let id = oneVideo.id, let title = oneVideo.title {
-                    let filmOpt = self.filmWithIdVideo(idFilm: id, title: title, oneVideo: oneVideo)
-                    if let film = filmOpt {
-                        let ftp = FilmToTop(context: AppDelegate.viewContext)
-                        if let rank = oneVideo.rank {
-                            ftp.rank = Int16(rank)!
-                            ftp.ftpToFilm = film
-                            ftp.ftpToTop = top
-                            do { try AppDelegate.viewContext.save() }
-                            catch {
-                                nbError += 1
-                                print("********saveDataTop>",error.localizedDescription)
-                            }
-                        }
-                    }
-                    if nbError > 5 { return }
-                } else {
-                    print("************* saveDataTop PbPb")
-                }
-            }
-        if nbError > 5 { 
-            return false 
-        } else {
-            return true }
-    }
+    
     private func filmWithIdVideo(idFilm: String, title: String, oneVideo: ResponseVideoImdb) -> Film?{
         
         let request: NSFetchRequest<Film> = Film.fetchRequest()
@@ -174,8 +85,6 @@ class ManageCoreData {
             catch {
                 print("*******createOrUpdateTopEntity_OLD",error.localizedDescription)
             }
-            ////////////////////////////////// Modified
-            //deleteAllRank(top: top[0])
             return top[0]
         } else {
             // Doesn't exist, create new Top with name 'type'

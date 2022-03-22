@@ -24,7 +24,6 @@ class FilmCustomTableViewCell: UITableViewCell {
     }
     
     func configure(elementVideo: VideoToShow){
-        print(elementVideo)
         elementToShow = elementVideo
         title.text = elementVideo.title
         desc.text = "\(elementVideo.crews)"

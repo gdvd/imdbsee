@@ -29,6 +29,7 @@ class TopModel {
     }
     
     public func loadListTops(type: String, completionHandler: @escaping(ResultTopVideo) -> Void ){
+        
         let topOpt = manageCoredata.getAllDataTop(withName: type)
         
         if let tops = topOpt {
@@ -41,6 +42,10 @@ class TopModel {
             }
         } else {
             let urlOpt = prepareUrlToDownloadTop(type: type)
+            
+            ///////
+            let coredatabg = ManageCoreDataBG(context: AppDelegate.persistentContainer)
+            
             if let url = urlOpt {
                 download.downloadVideoImdb(url: url) {
                     [weak self] result in
@@ -48,7 +53,12 @@ class TopModel {
                     
                     switch result {
                     case .Success(response: let tblRespVideoImdb):
-                        self.manageCoredata.saveTop(resp: tblRespVideoImdb, type: type)
+                        
+                        ////////////
+                        coredatabg.saveTop(resp: tblRespVideoImdb, type: type)
+                        
+                        //self.manageCoredata.saveTop(resp: tblRespVideoImdb, type: type)
+                        
                         let listFilmToShow:[VideoToShow] = self.transformTblrespvideoimdbToFilmtoshow(resp: tblRespVideoImdb)
                         let listFilmToShowSorted = self.orderListFilmtoshow(list: listFilmToShow)
                         completionHandler(.Success(response: listFilmToShowSorted))
@@ -62,7 +72,6 @@ class TopModel {
         }
     }
     private func orderListFilmtoshow(list: [VideoToShow]) -> [VideoToShow] {
-        //return list.sorted(by: { $0.rank > $1.rank })
         let sorted = list.sorted { fl, fr -> Bool in
             return fl.rank < fr.rank
         }

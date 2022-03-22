@@ -23,6 +23,11 @@ class FilmViewController: UIViewController {
         } else {
             activityIndicator.style = .whiteLarge
         }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        activityIndicatorAction(state: false)
+    }
+    override func viewWillAppear(_ animated: Bool) {
         activityIndicatorAction(state: false)
     }
 
@@ -57,11 +62,10 @@ class FilmViewController: UIViewController {
                     self.updateImgsFilm(findNb: 0)
                 case .ZeroData:
                     self.activityIndicatorAction(state: false)
-                    print("***********Return zero")//TODO: Next
-                case .Failure(failure: let failure):
+                    self.showError(msg: "Data not available")
+                case .Failure(failure: let error):
                     self.activityIndicatorAction(state: false)
-                    print("**********Return Failure with error :", failure.localizedDescription)
-                    //TODO: Next
+                    self.showError(msg: error.localizedDescription)
                 }
             }
         }
@@ -97,7 +101,7 @@ class FilmViewController: UIViewController {
                         self.listFilms[findNb].dataImg = dataImg
                         self.updateImgsFilm(findNb: findNb + 1)
                     case .Failure(failure: let error):
-                        print("******FVCupdateImgsFilm> error", error.localizedDescription)
+                        self.showError(msg: error.localizedDescription)
                     }
                 }
             }else {
@@ -111,19 +115,29 @@ class FilmViewController: UIViewController {
     private func showdialogbox(){
         let alert = UIAlertController(title: "Title request", message: nil, preferredStyle: .alert)
         
+        alert.view.translatesAutoresizingMaskIntoConstraints = false
+//        let boundWidth = alert.view.bounds.size.width
+        
         alert.addTextField { (textField) in
             textField.placeholder = "enter title"
             textField.textContentType = .name
+            
         }
+//        alert.textFields?[0].frame.size = CGSize(width: boundWidth - 150, height: 35)
+        
         alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { [self, weak alert] (_) in
             guard let textField = alert?.textFields?[0], let userText = textField.text else { return }
             goToSearchFilm(msg: userText)
         }))
-        
-        alert.view.translatesAutoresizingMaskIntoConstraints = false
-                
+
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func showError(msg: String){
+        let alertVC = UIAlertController(title: "Impossible", message: msg, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
     }
 }
 

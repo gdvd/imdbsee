@@ -44,7 +44,7 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
                     currentKeyImdb = newkey
                     changeStateForNoEditionKey()
                 } else {
-                    print("******saveKey> Error, canot save apikey")
+                    showError(msg: "Error, canot save apikey")
                     apiKeyImdbTextField.text = currentKeyImdb
                 }
             }
@@ -68,6 +68,12 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
         } else {
             saveKey()
         }
+    }
+    
+    private func showError(msg: String){
+        let alertVC = UIAlertController(title: "Impossible", message: msg, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
     }
     
 }

@@ -65,9 +65,7 @@ class FilmDetailModel {
         req = req.replacingOccurrences(of: Constants.patternIdVideo, with: idTtImdb)
         
         download.downloadInfoWiki(url: req) { 
-            //[weak self] 
             response in
-            //guard let self = self else { return }
             
             switch response {
             case .Success(response: let resp):

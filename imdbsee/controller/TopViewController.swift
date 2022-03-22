@@ -13,6 +13,7 @@ class TopViewController: UIViewController {
     private var rowSelected = 0
     
     private var step = 5
+    private var updateListToShowIsRunning = false
     
     @IBOutlet weak var segment: UISegmentedControl!
     @IBOutlet weak var tableFilms: UITableView!
@@ -27,9 +28,7 @@ class TopViewController: UIViewController {
     }
 
     private func initTable(seg: Int) {
-        DispatchQueue.main.async{
-            self.segment.isEnabled = false
-        }
+        self.makeSegment(setup: false)
         listVideoToShow = []
         checkAndRemoveFooter()
         if seg == 0 {
@@ -37,6 +36,16 @@ class TopViewController: UIViewController {
         } else if seg == 1 {
             loadListTopTvs()
         }
+    }
+    
+    @IBAction func segmentChange(_ sender: UISegmentedControl) {
+        initTable(seg: sender.selectedSegmentIndex)
+    }
+    
+    private func showError(msg: String){
+        let alertVC = UIAlertController(title: "Impossible", message: msg, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
     }
     
 
@@ -51,31 +60,38 @@ class TopViewController: UIViewController {
                 switch result {
                 case .Success(response: let resp):
                     self.listFilms = resp
-                    self.updateListToShow(withType: self.segment.selectedSegmentIndex)
+                    DispatchQueue.main.async{
+                        self.updateListToShow(withType: self.segment.selectedSegmentIndex)
+                    }
                 case .ZeroData:
-                    print("***********loadListTopFilms> Return zero")
-                    //TODO: Next
-                    DispatchQueue.main.async{
-                        self.segment.isEnabled = true
-                    }
+                    self.showError(msg: "Data not available")
+                    self.makeSegment(setup: true)
                 case .Failure(let error):
-                    print("***********loadListTopFilms> Return Failure with error :", error.localizedDescription)
-                    //TODO: Next
-                    DispatchQueue.main.async{
-                        self.segment.isEnabled = true
-                    }
+                    self.showError(msg: error.localizedDescription)
+                    self.makeSegment(setup: true)
                 }
             }
-            //TODO: get data and show them
         } else {
             self.updateListToShow(withType: self.segment.selectedSegmentIndex)
             DispatchQueue.main.async {
                 self.tableFilms.reloadData() }
         }
     }
+    private func makeSegment(setup: Bool){
+        DispatchQueue.main.async{
+            self.segment.isEnabled = setup
+        }
+    }
     private func updateListToShow(withType: Int) {
-        let begin = listVideoToShow.count
+        // Works one by one
+        if updateListToShowIsRunning {
+            return
+        } else {
+            updateListToShowIsRunning = true
+        }
         
+        // Prepare the supplement list of videos to be shown
+        let begin = listVideoToShow.count
         switch withType {
         case 0:
             let end = getRange(begin: begin, sizeMax: listFilms.count)
@@ -105,32 +121,26 @@ class TopViewController: UIViewController {
                 if video.urlImg != "" {
                     topModel.searchOneImage(url: video.urlImg) {
                         [self] result in
-                        //guard let self = self else { return }
+
                         switch result {
                         case .Success(let dataImg):
                             video.dataImg = dataImg
                             self.listVideoToShow.append(video)
                             updateImgsVideo(listVideoToAppend: listVideoToApp)
                         case .Failure(failure: let error):
-                            print("******TVCupdateImgsFilm> error\(video.title)  \(video.urlImg) ", error.localizedDescription)
+                            let data = UIImage(named: "filmByDefault")?.pngData()
+                            video.dataImg = data
+                            self.listVideoToShow.append(video)
+                            print("******TVCupdateImgsFilm> error\(video.title)  \(video.urlImg)", error.localizedDescription)
+                            updateImgsVideo(listVideoToAppend: listVideoToApp)
                         }
                     }
                 }
             }
         } else {
             checkAndRemoveFooter()
-            DispatchQueue.main.async{
-                self.segment.isEnabled = true
-            }
-        }
-    }
-    private func checkAndRemoveFooter(){
-        DispatchQueue.main.async { [self] in
-            if tableFilms.tableFooterView != nil {
-                tableFilms.tableFooterView = nil
-            } else {
-            }
-            self.tableFilms.reloadData()
+            makeSegment(setup: true)
+            updateListToShowIsRunning = false
         }
     }
 
@@ -146,34 +156,23 @@ class TopViewController: UIViewController {
                 case .Success(response: let resp):
                     self.listTvs = resp
                     DispatchQueue.main.async{
-                        var seg = self.segment.selectedSegmentIndex
-                        self.updateListToShow(withType: self.segment.selectedSegmentIndex)
+                        let stateSegm = self.segment.selectedSegmentIndex
+                        self.updateListToShow(withType: stateSegm)
                     }
                     
                 case .ZeroData:
-                    print("***********loadListTopFilms> Return zero")
-                    //TODO: Next
-                    DispatchQueue.main.async{
-                        self.segment.isEnabled = true
-                    }
+                    self.showError(msg: "Data not available")
+                    self.makeSegment(setup: true)
                 case .Failure(let error):
-                    print("***********loadListTopFilms> Return Failure with error :", error.localizedDescription)
-                    //TODO: Next
-                    DispatchQueue.main.async{
-                        self.segment.isEnabled = true
-                    }
+                    self.showError(msg: error.localizedDescription)
+                    self.makeSegment(setup: true)
                 }
             }
-            //TODO: get data and show them
         } else {
             self.updateListToShow(withType: self.segment.selectedSegmentIndex)
             DispatchQueue.main.async {
                 self.tableFilms.reloadData() }
         }
-    }
-
-    @IBAction func segmentChange(_ sender: UISegmentedControl) {
-        initTable(seg: sender.selectedSegmentIndex)
     }
 }
 
@@ -221,6 +220,15 @@ extension TopViewController: UITableViewDataSource, UITableViewDelegate, UIScrol
         footerView.addSubview(spinner)
         spinner.startAnimating()
         return footerView
+    }
+    private func checkAndRemoveFooter(){
+        DispatchQueue.main.async { [self] in
+            if tableFilms.tableFooterView != nil {
+                tableFilms.tableFooterView = nil
+            } else {
+            }
+            self.tableFilms.reloadData()
+        }
     }
     
 }
