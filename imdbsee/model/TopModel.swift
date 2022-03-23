@@ -19,10 +19,14 @@ enum DataTopError: Error {
 class TopModel {
     
     public static let shared = TopModel()
-    private init() {}
+    private init() {
+        coredatabg = ManageCoreDataBG(context: AppDelegate.persistentContainer)
+    }
     
     private let manageCoredata = ManageCoreData.shared
     private let download = DownloadManager.shared
+    
+    private let coredatabg: ManageCoreDataBG
     
     private func getApiKey(keyName: String) -> String? {
         return manageCoredata.getOneKey(keyName: keyName)
@@ -43,9 +47,6 @@ class TopModel {
         } else {
             let urlOpt = prepareUrlToDownloadTop(type: type)
             
-            ////////////////
-            let coredatabg = ManageCoreDataBG(context: AppDelegate.persistentContainer)
-            
             if let url = urlOpt {
                 download.downloadVideoImdb(url: url) {
                     [weak self] result in
@@ -54,8 +55,7 @@ class TopModel {
                     switch result {
                     case .Success(response: let tblRespVideoImdb):
                         
-                        ////////////////
-                        coredatabg.saveTop(resp: tblRespVideoImdb, type: type)
+                        self.coredatabg.saveTop(resp: tblRespVideoImdb, type: type)
                         
                         let listFilmToShow:[VideoToShow] = self.transformTblrespvideoimdbToFilmtoshow(resp: tblRespVideoImdb)
                         let listFilmToShowSorted = self.orderListFilmtoshow(list: listFilmToShow)

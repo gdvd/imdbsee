@@ -8,9 +8,14 @@
 import UIKit
 
 class PrefViewController: UIViewController, UITextFieldDelegate {
+    func resetData(type: String) {
+        print("i go", type)
+    }
+    
 
     let prefModel = PrefModel.shared
     var currentKeyImdb = ""
+    weak var delegate: ResetDelegate?
     
     @IBOutlet weak var apiKeyImdbTextField: UITextField!
     @IBOutlet weak var btnApikeyImdb: UIButton!
@@ -23,6 +28,7 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         initData()
     }
+
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         changeStateForNoEditionKey()
     }
@@ -97,8 +103,14 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
         self.present(alertVC, animated: true, completion: nil)
     }
     
-    
     @IBAction func actionEraseTopFilms(_ sender: UIButton) {
+        resetData(type: "String")
+        if self.delegate != nil {
+            print("========actionEraseTopFilms begin")
+            delegate?.resetData(type: "azertyuiop")
+        } else {
+            print("******** actionEraseTopFilms failed")
+        }
         showdialogbox(type: Constants.strTopFilms)
     }
     

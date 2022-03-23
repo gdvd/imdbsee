@@ -7,7 +7,11 @@
 
 import UIKit
 
-class TopViewController: UIViewController {
+protocol ResetDelegate: NSObjectProtocol {
+    func resetData(type: String)
+}
+
+class TopViewController: UIViewController, ResetDelegate {
     
     private let topModel = TopModel.shared
     private var rowSelected = 0
@@ -27,6 +31,10 @@ class TopViewController: UIViewController {
         initTable(seg: 0)
     }
 
+    func resetData(type: String){
+        print("============= protocol works, receive type : \(type)")
+    }
+    
     private func initTable(seg: Int) {
         self.makeSegment(setup: false)
         listVideoToShow = []
