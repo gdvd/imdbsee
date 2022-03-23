@@ -116,14 +116,12 @@ class FilmViewController: UIViewController {
         let alert = UIAlertController(title: "Title request", message: nil, preferredStyle: .alert)
         
         alert.view.translatesAutoresizingMaskIntoConstraints = false
-//        let boundWidth = alert.view.bounds.size.width
         
         alert.addTextField { (textField) in
             textField.placeholder = "enter title"
             textField.textContentType = .name
             
         }
-//        alert.textFields?[0].frame.size = CGSize(width: boundWidth - 150, height: 35)
         
         alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { [self, weak alert] (_) in

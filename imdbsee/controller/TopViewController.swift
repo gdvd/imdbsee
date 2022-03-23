@@ -7,11 +7,7 @@
 
 import UIKit
 
-protocol ResetDelegate: NSObjectProtocol {
-    func resetData(type: String)
-}
-
-class TopViewController: UIViewController, ResetDelegate {
+class TopViewController: UIViewController {
     
     private let topModel = TopModel.shared
     private var rowSelected = 0
@@ -28,11 +24,46 @@ class TopViewController: UIViewController, ResetDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         initTable(seg: 0)
+        
+        let nameFilms = Notification.Name(rawValue: Constants.strTopFilms + "ResetList")
+        NotificationCenter.default.addObserver(self, selector: #selector(triggerResetListFilms), name: nameFilms, object: nil)
+        
+        let nameTvs = Notification.Name(rawValue: Constants.strTopTvs + "ResetList")
+        NotificationCenter.default.addObserver(self, selector: #selector(triggerResetListTvs), name: nameTvs, object: nil)
     }
-
-    func resetData(type: String){
-        print("============= protocol works, receive type : \(type)")
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("I reload all")
+        //var index = 0
+        DispatchQueue.main.async { [self] in
+            var index = segment.selectedSegmentIndex 
+            switch index {
+            case 0:
+                if listFilms.count == 0 {
+                    listVideoToShow = []
+                    initTable(seg: 0)
+                }
+            case 1:
+                if listTvs.count == 0 {
+                    listVideoToShow = []
+                    initTable(seg: 1)
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    @objc func triggerResetListFilms (){
+        print("========triggerResetListFilms> OK")
+        listFilms = []
+    }
+    
+    @objc func triggerResetListTvs (){
+        print("========triggerResetListTvs> OK")
+        listTvs = []
     }
     
     private func initTable(seg: Int) {

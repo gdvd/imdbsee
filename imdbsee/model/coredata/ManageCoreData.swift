@@ -60,64 +60,16 @@ class ManageCoreData {
         let request: NSFetchRequest<Top> = Top.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", type)
         do {
-            let topOpt = try? AppDelegate.viewContext.fetch(request)
-            for entity in topOpt! {
-                //TODO: erase one top
+            let topOpt = try AppDelegate.viewContext.fetch(request)
+            for entity in topOpt {
                 AppDelegate.viewContext.delete(entity)
             }
             completionHandler(true)
         } catch {
-            print("***********deleteAllRank>", error.localizedDescription)
             completionHandler(false)        
-            
         }
-        
-        
     }
     
-    private func deleteAllRank(top: Top){
-        // Delete all FilmToTop with top
-        let request: NSFetchRequest<FilmToTop> = FilmToTop.fetchRequest()
-        request.predicate = NSPredicate(format: "ftpToTop == %@", top)
-        do {
-            let topOpt = try? AppDelegate.viewContext.fetch(request)
-            for entity in topOpt! {
-                print("****** Delete obj FilmToTop with rank\t\(entity.rank)")
-                AppDelegate.viewContext.delete(entity)
-            }
-        }
-        do { try AppDelegate.viewContext.save() } catch {
-            print("***********deleteAllRank>", error.localizedDescription)
-        }
-    }
-    private func createOrUpdateTopEntity_OLD(withName type: String) -> Top {
-        let request: NSFetchRequest<Top> = Top.fetchRequest()
-        request.predicate = NSPredicate(format: "name == %@", type)
-        let topOpt = try? AppDelegate.viewContext.fetch(request)
-        let dateNow = Calendar.current.dateComponents(in: .current, from: Date()).date! 
-        if let top = topOpt, topOpt != [] {
-            // Already exist, then just update dateModif
-            top[0].dateModif = dateNow
-            do {
-                try AppDelegate.viewContext.save()
-            }
-            catch {
-                print("*******createOrUpdateTopEntity_OLD",error.localizedDescription)
-            }
-            return top[0]
-        } else {
-            // Doesn't exist, create new Top with name 'type'
-            let top = Top(context: AppDelegate.viewContext)
-            top.name = type
-            top.dateModif = dateNow
-            do {
-                try AppDelegate.viewContext.save()
-            } catch {
-                print("*******createOrUpdateTopEntity_OLD 2",error.localizedDescription)
-            }
-            return top
-        }
-    }
     //MARK: - ApiKey
     public func getOneKey(keyName: String) -> String? {
         let request: NSFetchRequest<Pref> = Pref.fetchRequest()
@@ -129,6 +81,7 @@ class ManageCoreData {
         }
         return nil
     }
+    
     private func ifKeynameExistInDB(keyName: String) -> Bool{
         if keyName != "" {
             let request: NSFetchRequest<Pref> = Pref.fetchRequest()
@@ -138,6 +91,7 @@ class ManageCoreData {
         }
         return false
     }
+    
     private func saveOneKey(keyName: String, key: String) -> String? {
         let pref = Pref(context: AppDelegate.viewContext)
         pref.key = key
@@ -149,6 +103,7 @@ class ManageCoreData {
         }
         return pref.key
     }
+    
     public func saveOrUpdateOneKey(keyName: String, key: String) -> String?{
         if ifKeynameExistInDB(keyName: keyName) {
             // Update Pref(keyName/newKey)
@@ -158,11 +113,11 @@ class ManageCoreData {
             return saveOneKey(keyName: keyName, key: key)
         }
     }
+    
     private func updateOneKey(keyName: String, newKey: String) -> String?{
         let request: NSFetchRequest<Pref> = Pref.fetchRequest()
         request.predicate = NSPredicate(format: "apiKeyName == %@", keyName)
         if let pref = try? AppDelegate.viewContext.fetch(request)[0] {
-            //pref.key = newKey
             pref.setValue(newKey, forKey: "apiKeyName")
             do {
                 try AppDelegate.viewContext.save()
