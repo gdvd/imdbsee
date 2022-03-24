@@ -591,6 +591,21 @@
                                     <action selector="actionEraseTopTvs:" destination="KUF-if-Jxu" eventType="touchUpInside" id="H2s-fk-miP"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gF-xM-GqL">
+                                <rect key="frame" x="16" y="679" width="358" height="50"/>
+                                <color key="backgroundColor" red="0.11342895779999999" green="0.1134516671" blue="0.1083096191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Cdl-df-EkJ"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Create a new APIKey" cornerStyle="fixed">
+                                    <fontDescription key="titleFontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
+                                    <color key="baseForegroundColor" systemColor="systemYellowColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="actioCreateApikey:" destination="KUF-if-Jxu" eventType="touchUpInside" id="eb8-r8-vzQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Had-x7-MIH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -599,12 +614,15 @@
                             <constraint firstItem="Had-x7-MIH" firstAttribute="trailing" secondItem="qbA-9x-W9L" secondAttribute="trailing" constant="20" id="80y-XY-kIc"/>
                             <constraint firstItem="qbA-9x-W9L" firstAttribute="leading" secondItem="Had-x7-MIH" secondAttribute="leading" constant="20" id="IQL-sM-aH6"/>
                             <constraint firstItem="Had-x7-MIH" firstAttribute="trailing" secondItem="SwB-JL-ZQn" secondAttribute="trailing" constant="16" id="P7k-8C-GNe"/>
+                            <constraint firstItem="Had-x7-MIH" firstAttribute="trailing" secondItem="8gF-xM-GqL" secondAttribute="trailing" constant="16" id="Tn3-hZ-hE8"/>
                             <constraint firstItem="qbA-9x-W9L" firstAttribute="top" secondItem="Had-x7-MIH" secondAttribute="top" constant="60" id="hLD-U1-Sr4"/>
                             <constraint firstItem="8YQ-Rp-WrQ" firstAttribute="top" secondItem="qbA-9x-W9L" secondAttribute="bottom" constant="64" id="lNG-d5-NB3"/>
                             <constraint firstItem="Had-x7-MIH" firstAttribute="trailing" secondItem="8YQ-Rp-WrQ" secondAttribute="trailing" constant="16" id="o6N-8g-Ad6"/>
                             <constraint firstItem="SwB-JL-ZQn" firstAttribute="leading" secondItem="Had-x7-MIH" secondAttribute="leading" constant="16" id="oDg-fM-vKA"/>
+                            <constraint firstItem="Had-x7-MIH" firstAttribute="bottom" secondItem="8gF-xM-GqL" secondAttribute="bottom" constant="32" id="rDd-Z8-yqG"/>
                             <constraint firstItem="8YQ-Rp-WrQ" firstAttribute="leading" secondItem="Had-x7-MIH" secondAttribute="leading" constant="16" id="u04-tW-ukK"/>
                             <constraint firstItem="SwB-JL-ZQn" firstAttribute="top" secondItem="8YQ-Rp-WrQ" secondAttribute="bottom" constant="37" id="wK7-i3-1eI"/>
+                            <constraint firstItem="8gF-xM-GqL" firstAttribute="leading" secondItem="Had-x7-MIH" secondAttribute="leading" constant="16" id="zWl-pT-lN8"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="wmK-mB-KOZ" appends="YES" id="zbx-1y-5zX"/>
@@ -614,6 +632,7 @@
                     <connections>
                         <outlet property="apiKeyImdbTextField" destination="AsR-Qy-sDn" id="27a-mI-ROG"/>
                         <outlet property="btnApikeyImdb" destination="wGd-Mb-xb9" id="lDd-uY-47H"/>
+                        <outlet property="btnCreateApi" destination="8gF-xM-GqL" id="cwy-bR-6LQ"/>
                         <outlet property="btnEraseTopFilms" destination="8YQ-Rp-WrQ" id="gFk-HL-cwl"/>
                         <outlet property="btnEraseTopTvs" destination="SwB-JL-ZQn" id="SoV-51-Yx1"/>
                     </connections>
@@ -625,7 +644,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="586" y="578"/>
+            <point key="canvasLocation" x="584.61538461538464" y="577.96208530805688"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

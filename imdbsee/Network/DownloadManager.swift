@@ -27,7 +27,7 @@ class DownloadManager {
     
     public static let shared = DownloadManager()
     private var task: URLSessionDataTask?
-    init() {}
+    private init() {}
     
     // 4 XCTest
     private var session = URLSession(configuration: .default)

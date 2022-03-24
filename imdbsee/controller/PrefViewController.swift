@@ -18,6 +18,7 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var btnEraseTopFilms: UIButton!
     @IBOutlet weak var btnEraseTopTvs: UIButton!
     
+    @IBOutlet weak var btnCreateApi: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +109,11 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
         showdialogbox(type: Constants.strTopTvs)
     }
     
+    @IBAction func actioCreateApikey(_ sender: UIButton) {
+        if let url = URL(string: Constants.urlImdbCreateApi) {
+            UIApplication.shared.open(url)
+        }
+    }
     private func showdialogbox(type: String){
         let alert = UIAlertController(title: "Warning", message: "Are you sure ?", preferredStyle: .alert) 
         

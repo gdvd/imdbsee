@@ -200,7 +200,6 @@ class TopViewController: UIViewController {
                         let stateSegm = self.segment.selectedSegmentIndex
                         self.updateListToShow(withType: stateSegm)
                     }
-                    
                 case .ZeroData:
                     self.showError(msg: "Data not available")
                     self.makeSegment(setup: true)
@@ -256,10 +255,11 @@ extension TopViewController: UITableViewDataSource, UITableViewDelegate, UIScrol
     }
     private func createSpinnerFooter() -> UIView {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
-        let spinner = UIActivityIndicatorView()
-        spinner.center = footerView.center
-        footerView.addSubview(spinner)
-        spinner.startAnimating()
+        DispatchQueue.main.async {
+            let spinner = UIActivityIndicatorView()
+            spinner.center = footerView.center
+            footerView.addSubview(spinner)
+            spinner.startAnimating()}
         return footerView
     }
     private func checkAndRemoveFooter(){
