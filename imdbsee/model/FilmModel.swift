@@ -44,7 +44,6 @@ class FilmModel {
             case .Success(response: let responseSearchFilm):
                 completionHandler(.Success(response: self.transformResultsearchToVideotoshow(resultssearch: responseSearchFilm)))
             case .Failure(failure: let error):
-                print("********serachFilm>", error.localizedDescription)
                 completionHandler(.Failure(failure: .downloadError(response: error.localizedDescription)))
             }
         }

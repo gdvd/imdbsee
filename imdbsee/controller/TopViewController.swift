@@ -35,11 +35,9 @@ class TopViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("I reload all")
-        //var index = 0
+
         DispatchQueue.main.async { [self] in
-            var index = segment.selectedSegmentIndex 
-            switch index {
+            switch segment.selectedSegmentIndex {
             case 0:
                 if listFilms.count == 0 {
                     listVideoToShow = []
@@ -57,12 +55,10 @@ class TopViewController: UIViewController {
     }
     
     @objc func triggerResetListFilms (){
-        print("========triggerResetListFilms> OK")
         listFilms = []
     }
     
     @objc func triggerResetListTvs (){
-        print("========triggerResetListTvs> OK")
         listTvs = []
     }
     
@@ -122,7 +118,7 @@ class TopViewController: UIViewController {
         }
     }
     private func updateListToShow(withType: Int) {
-        // Works one by one
+        // Works one by one, only
         if updateListToShowIsRunning {
             return
         } else {
@@ -171,7 +167,7 @@ class TopViewController: UIViewController {
                             let data = UIImage(named: "filmByDefault")?.pngData()
                             video.dataImg = data
                             self.listVideoToShow.append(video)
-                            print("******TVCupdateImgsFilm> error\(video.title)  \(video.urlImg)", error.localizedDescription)
+                            print("updateImgsVideo error\(video.title)  \(video.urlImg)", error.localizedDescription)
                             self.updateImgsVideo(listVideoToAppend: listVideoToApp)
                         }
                     }
@@ -179,7 +175,6 @@ class TopViewController: UIViewController {
                     let data = UIImage(named: "filmByDefault")?.pngData()
                     video.dataImg = data
                     self.listVideoToShow.append(video)
-                    print("******TVCupdateImgsFilm> error\(video.title)")
                     self.updateImgsVideo(listVideoToAppend: listVideoToApp)
                 }
             }

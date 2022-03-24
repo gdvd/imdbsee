@@ -30,7 +30,7 @@ class ManageCoreData {
         }
     }
     
-    private func filmWithIdVideo(idFilm: String, title: String, oneVideo: ResponseVideoImdb) -> Film?{
+    private func filmWithIdVideo(idFilm: String, title: String, oneVideo: ResponseVideoImdb) -> Film? {
         
         let request: NSFetchRequest<Film> = Film.fetchRequest()
         request.predicate = NSPredicate(format: "idFilm == %@", idFilm)
@@ -104,7 +104,7 @@ class ManageCoreData {
         return pref.key
     }
     
-    public func saveOrUpdateOneKey(keyName: String, key: String) -> String?{
+    public func saveOrUpdateOneKey(keyName: String, key: String) -> String? {
         if ifKeynameExistInDB(keyName: keyName) {
             // Update Pref(keyName/newKey)
             return updateOneKey(keyName: keyName, newKey: key)
@@ -114,7 +114,7 @@ class ManageCoreData {
         }
     }
     
-    private func updateOneKey(keyName: String, newKey: String) -> String?{
+    private func updateOneKey(keyName: String, newKey: String) -> String? {
         let request: NSFetchRequest<Pref> = Pref.fetchRequest()
         request.predicate = NSPredicate(format: "apiKeyName == %@", keyName)
         if let pref = try? AppDelegate.viewContext.fetch(request)[0] {

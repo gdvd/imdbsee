@@ -42,7 +42,7 @@ class TopModel {
                 let listFilmToShowSorted = self.orderListFilmtoshow(list: listFilmToShow)
                 completionHandler(.Success(response: listFilmToShowSorted))
             } else {
-                //TODO: NEXT
+                completionHandler(.Failure(failure: .downloadError(response: "Data in DB incorrect")))
             }
         } else {
             let urlOpt = prepareUrlToDownloadTop(type: type)
@@ -65,7 +65,7 @@ class TopModel {
                     }
                 }
             } else {
-                //TODO: comppletionHandler with error
+                completionHandler(.Failure(failure: .downloadError(response: "Data in DB incorrect")))
             }
         }
     }

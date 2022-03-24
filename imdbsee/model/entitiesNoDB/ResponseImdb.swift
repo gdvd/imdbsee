@@ -21,7 +21,7 @@ struct ResponseVideoImdb: Codable {
     var imDbRatingCount: String?
     
 }
-///
+
 struct ResponseSearch: Codable {
     var searchType: String?
     var expression: String?
@@ -35,7 +35,7 @@ struct ResultSearch: Codable {
     var title: String?
     var description: String?
 }
-///
+
 struct ResponseWiki: Codable {
     var imDbId: String?
     var title: String?

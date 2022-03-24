@@ -35,9 +35,10 @@ class TopCustomTableViewCell: UITableViewCell {
     
     func configure(elementVideo: VideoToShow){
         elementToShow = elementVideo
-        titleFilm.text = elementToShow.title
-        desc.text = "\(elementToShow.year) \n\(elementToShow.rank) \n\(elementToShow.imDbRating)\n\(elementToShow.imDbRatingCount)"
-        updateImg()
-    }
+        DispatchQueue.main.async {
+            self.titleFilm.text = self.elementToShow.title
+            self.desc.text = "\(self.elementToShow.year) \n#\(self.elementToShow.rank) \nScore:\(self.elementToShow.imDbRating)\nVotes:\(self.elementToShow.imDbRatingCount)"
+            self.updateImg()
+        }}
 
 }

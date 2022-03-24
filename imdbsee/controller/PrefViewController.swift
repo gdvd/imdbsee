@@ -51,7 +51,7 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
                     currentKeyImdb = newkey
                     changeStateForNoEditionKey()
                 } else {
-                    showError(msg: "Error, canot save apikey")
+                    showError(msg: "Error, not save apikey")
                     apiKeyImdbTextField.text = currentKeyImdb
                 }
             }
@@ -79,7 +79,6 @@ class PrefViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Manage delete topList
     private func eraseList(type: String) {
-        print("I go to delete list", type)
         
         prefModel.deleteListTop(type: type) {
             resultSuccess in

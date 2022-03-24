@@ -16,7 +16,6 @@
 		121B80D027D7964500CBC0F6 /* kenyc.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 121B80CF27D7964500CBC0F6 /* kenyc.ttf */; };
 		121B80D227D797F400CBC0F6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80D127D797F400CBC0F6 /* TabBarController.swift */; };
 		121B80D427D79D2600CBC0F6 /* ManageCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80D327D79D2500CBC0F6 /* ManageCoreData.swift */; };
-		121B80F427D9F05F00CBC0F6 /* SaveInUserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80F327D9F05F00CBC0F6 /* SaveInUserDefault.swift */; };
 		121B80F627DA377100CBC0F6 /* TopCustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80F527DA377100CBC0F6 /* TopCustomTableViewCell.swift */; };
 		121B80F927DA3A6A00CBC0F6 /* ElementTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80F827DA3A6A00CBC0F6 /* ElementTop.swift */; };
 		121B80FB27DA505800CBC0F6 /* ElementVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B80FA27DA505700CBC0F6 /* ElementVideo.swift */; };
@@ -69,7 +68,6 @@
 		121B80CF27D7964500CBC0F6 /* kenyc.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = kenyc.ttf; sourceTree = "<group>"; };
 		121B80D127D797F400CBC0F6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		121B80D327D79D2500CBC0F6 /* ManageCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCoreData.swift; sourceTree = "<group>"; };
-		121B80F327D9F05F00CBC0F6 /* SaveInUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveInUserDefault.swift; sourceTree = "<group>"; };
 		121B80F527DA377100CBC0F6 /* TopCustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCustomTableViewCell.swift; sourceTree = "<group>"; };
 		121B80F827DA3A6A00CBC0F6 /* ElementTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementTop.swift; sourceTree = "<group>"; };
 		121B80FA27DA505700CBC0F6 /* ElementVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementVideo.swift; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 		121B80F727DA3A1500CBC0F6 /* entitiesNoDB */ = {
 			isa = PBXGroup;
 			children = (
-				121B80F327D9F05F00CBC0F6 /* SaveInUserDefault.swift */,
 				121B80F827DA3A6A00CBC0F6 /* ElementTop.swift */,
 				12F0365F27DB9075002E9FC1 /* ResponseImdb.swift */,
 				12F036F127DF8D79002E9FC1 /* VideoToShow.swift */,
@@ -389,7 +386,6 @@
 				12C675AF27E11E41002C9A8A /* FilmToPerson+CoreDataClass.swift in Sources */,
 				121B80D227D797F400CBC0F6 /* TabBarController.swift in Sources */,
 				12C675C027E4EE2D002C9A8A /* FilmDetailModel.swift in Sources */,
-				121B80F427D9F05F00CBC0F6 /* SaveInUserDefault.swift in Sources */,
 				12B795C827D605FA0004C869 /* AppDelegate.swift in Sources */,
 				121B80CD27D75A9B00CBC0F6 /* DownloadManager.swift in Sources */,
 				12C675C227E66887002C9A8A /* DetailOneFilmViewController.swift in Sources */,

@@ -16,7 +16,7 @@ class ManageCoreDataBG {
         self.coreDataContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
-    public func saveTop(resp: [ResponseVideoImdb], type: String){
+    public func saveTop(resp: [ResponseVideoImdb], type: String) {
 
         coreDataContainer.viewContext.performAndWait {
             let top = self.createOrUpdateTopEntity(withName: type)
@@ -31,12 +31,10 @@ class ManageCoreDataBG {
                             ftp.ftpToTop = top
                             do { try AppDelegate.viewContext.save() }
                             catch {
-                                print("**********saveTop> 1",error.localizedDescription)
+                                print(error.localizedDescription)
                             }
                         }
                     }
-                } else {
-                    print("***********saveTop> 2")
                 }
             }
         }
@@ -56,7 +54,7 @@ class ManageCoreDataBG {
                     try AppDelegate.viewContext.save()
                 }
                 catch {
-                    print("*******createOrUpdateTopEntity 2>",error.localizedDescription)
+                    print(error.localizedDescription)
                 }
                 return top[0]
             }
@@ -69,7 +67,7 @@ class ManageCoreDataBG {
         do {
             try AppDelegate.viewContext.save()
         } catch {
-            print("*************createOrUpdateTopEntity>",error.localizedDescription)
+            print(error.localizedDescription)
         }
         return top
         
